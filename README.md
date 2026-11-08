@@ -12,10 +12,13 @@ copied) on its own.
 |---|---|---|
 | [Needle Bin I](needle-bin-i/) | A sealed, print-in-one-piece disposal bin for used and broken sewing needles: they drop in through a funnel and don't come back out. The original design. | Printed many times, round and faceted |
 | [Needle Bin II](needle-bin-ii/) | Needle Bin I plus recessed artwork: up to two SVG images (logos, or text laid out as SVG) on the side, laid flat on a face or wrapped around a round bin, sized as a percentage of the face. | Wrapped artwork printed; flat-face placement checked in OpenSCAD |
+| [Needle Inserter](needle-inserter/) | A tool for putting an HAx1 needle into the machine: a keyed pocket with a spring tab holds the needle by its shank, flat facing the right way, on an upright grip you pinch between thumb and forefinger. | Printed in PETG; tested with #9 to #21 needles |
 
 ## Using the models
 
-The models are plain OpenSCAD files with no libraries. Open one in
+The models are OpenSCAD files. Most use no libraries; the Needle Inserter
+needs [BOSL2](https://github.com/BelfrySCAD/BOSL2) installed in OpenSCAD's
+libraries folder. Open one in
 [OpenSCAD](https://openscad.org/), adjust it in the Customizer
 (Window › Customizer), render (F6) and export an STL or 3MF for your
 slicer. Each project's `docs/USERS_GUIDE.md` explains its settings, how to
