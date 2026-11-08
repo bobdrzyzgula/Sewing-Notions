@@ -1,0 +1,33 @@
+{
+    "parameterSets": {
+        "Example: pentagon, flat artwork": {
+            "shell_facets": "5",
+            "logo1_file": "examples/needles_text.svg",
+            "logo1_size_mode": "percent",
+            "logo1_fit_to": "height",
+            "logo1_percent": "70",
+            "logo1_rotate": "90",
+            "logo1_angle": "0",
+            "logo2_file": "examples/needle_and_thread.svg",
+            "logo2_size_mode": "percent",
+            "logo2_fit_to": "width",
+            "logo2_percent": "85",
+            "logo2_angle": "180"
+        },
+        "Example: round, wrapped artwork": {
+            "outer_radius": "25",
+            "shell_facets": "300",
+            "logo1_file": "examples/needle_and_thread.svg",
+            "logo1_size_mode": "percent",
+            "logo1_fit_to": "width",
+            "logo1_percent": "70",
+            "logo1_angle": "0",
+            "logo2_file": "examples/needles_text.svg",
+            "logo2_size_mode": "percent",
+            "logo2_fit_to": "width",
+            "logo2_percent": "65",
+            "logo2_angle": "180"
+        }
+    },
+    "fileFormatVersion": "1"
+}
