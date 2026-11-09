@@ -62,6 +62,9 @@ hang_hole_d = 0; // [0:0.5:8]
 // Width of the flat on the bed, as a fraction of the half-thickness.
 // Bigger = steadier on the bed and a plainer flat on one side of the grip
 flat_frac = 0.5; // [0.2:0.05:0.9]
+// Narrowest the foot on the bed may be. Thin sections (the blade, a
+// creaser paddle) are widened to this, up to 85% of their thickness
+min_foot = 2.4; // [0:0.1:4]
 
 /* [Custom size (used when size = custom)] */
 c_length = 114; // [50:1:250]
@@ -203,13 +206,24 @@ function sec_b(a, h, w) = let(hw = max(h + w, a + 0.01)) (hw * hw - a * a) / (2 
 function sec_px(a, b) = a * a / sqrt(a * a + b * b);
 function sec_w(a, h) = let(w0 = flat_frac * a, b0 = sec_b(a, h, w0))
     min(w0, 0.9 * sec_px(a, b0));
+// The foot on the bed is widened to at least min_foot (or 85% of the
+// thickness, if that's less). Where that's wider than the 45-degree foot,
+// the sides run from the foot up to a tangent on the ellipse, steeper than
+// 45 degrees. Without this a tall, thin section (the blade, and above all
+// a creaser paddle) stands on a knife edge and lifts off the bed.
+function foot_w(a, h) = max(sec_w(a, h), flat_frac * a, min(min_foot / 2, 0.85 * a));
 function section_pts(t, h) =
-    let(a = t / 2, w = sec_w(a, h), b = sec_b(a, h, w), zc = h - b,
-        tp = atan2(-b, a), m = SEC - 2)
-    concat([[w, 0]],
+    let(a = t / 2, w45 = sec_w(a, h), b = sec_b(a, h, w45), zc = h - b,
+        wf = foot_w(a, h),
+        A = wf / a, B = -zc / b, R = sqrt(A * A + B * B),
+        tan_ok = wf > w45 + 1e-6 && R > 1.0001,
+        tp = tan_ok ? atan2(B, A) + acos(1 / R) : atan2(-b, a),
+        fw = tan_ok ? wf : w45,
+        m = SEC - 2)
+    concat([[fw, 0]],
         [for (k = [0 : m - 1]) let(u = tp + (180 - 2 * tp) * k / (m - 1))
             [a * cos(u), max(0, zc + b * sin(u))]],
-        [[-w, 0]]);
+        [[-fw, 0]]);
 function section_zc(t, h) = let(a = t / 2, w = sec_w(a, h)) h - sec_b(a, h, w);
 
 // place a 2D ring at path point p with heading th (u along the left normal)

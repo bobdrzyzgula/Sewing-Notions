@@ -53,9 +53,11 @@ a hanging hole.
 
 ## Status
 
-Version 1.1, which adds a left-handed version. Version 1.0: all three
-sizes printed as the set in PLA, at 0.12 mm layers with gyroid infill and
-`$fn` at 200: they come out smooth and sit well in the hand.
+Version 1.2. 1.1 added a left-handed version; 1.2 widens the foot under
+thin sections so a creaser paddle no longer lifts off the bed. Version
+1.0: all three sizes printed as the set in PLA, at 0.12 mm layers with
+gyroid infill and `$fn` at 200: they come out smooth and sit well in the
+hand.
 
 ![The printed set](images/printed_set.jpg)
 

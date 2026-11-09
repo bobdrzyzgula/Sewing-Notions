@@ -1,6 +1,6 @@
 # Point Turner — User's Guide
 
-Version 1.1
+Version 1.2
 
 The Point Turner was made at the request of Bob Drzyzgula. The design, the
 OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -147,9 +147,11 @@ version (see `hand` in [section 6](#6-settings-reference)).
 - **Why on its side:** every extrusion line then runs along the tool, so
   pushing on the tip loads the plastic along its lines, not the bonds
   between layers. It also means the bend doesn't need support.
-- **Brim:** each tool stands on a narrow flat (about 1 mm wide along the
-  blade, a few millimeters along the grip). A brim of 3 to 5 mm holds it
-  down, especially at the tip.
+- **Brim:** each tool stands on a narrow flat: 2.4 mm wide along the
+  blade, wider along the grip, and about 2.2 mm under a creaser paddle. A
+  brim of 3 to 5 mm holds it down, especially at the tip. The creaser
+  paddle is a thin wall 15 to 19 mm tall, so for it add mouse ears (brim
+  discs) at the end of the paddle as well.
 - **Material:** PLA works well; the prototypes are PLA. PETG is tougher:
   it flexes a little rather than snapping if you lever on the tip.
 - **Walls and infill:** with 3 or 4 walls the blade prints nearly solid.
@@ -211,7 +213,8 @@ All dimensions are in millimeters.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `flat_frac` | 0.5 | Width of the flat the tool stands on, as a fraction of the half-thickness. Larger is steadier on the bed and a plainer flat along the grip. Along the thin blade the flat is limited to what the 45° sides allow, whatever this is set to |
+| `flat_frac` | 0.5 | Width of the flat the tool stands on, as a fraction of the half-thickness. Larger is steadier on the bed and a plainer flat along the grip |
+| `min_foot` | 2.4 | Narrowest the flat may be anywhere along the tool, up to 85% of the local thickness. It keeps thin sections, the blade and above all a creaser paddle, from standing on a knife edge and lifting off the bed. 0 gives the version 1.1 shape |
 
 ### Custom size (when `size = custom`)
 
@@ -242,6 +245,12 @@ All dimensions are in millimeters.
 
 ## 7. Troubleshooting
 
+**The creaser paddle lifts or is knocked over during printing.** Before
+version 1.2 the paddle stood on a foot only about 0.3 mm wide, and PETG
+pulled it off the bed. Use version 1.2 or later (`min_foot` 2.4), with a
+brim and mouse ears at the end of the paddle. If it still lifts, slow the
+outer walls and turn on Z-hop so the nozzle doesn't drag across it.
+
 **The tip lifts or curls during printing.** Add or widen the brim, and
 slow the first layer. The tip is the smallest footprint on the part.
 
@@ -263,6 +272,7 @@ thumb, print the other hand's version.
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.2 | November 2026 | Wider foot on thin sections (`min_foot`): the creaser paddle stood on a 0.3 mm edge and lifted off the bed in PETG; the blade's foot goes from about 1 mm to 2.4 mm |
 | 1.1 | November 2026 | Left-handed version (`hand`); left-handed set STL |
 | 1.0 | November 2026 | First version: small, medium and large presets, custom size, creaser and hanging-hole options. All three printed in PLA at 0.12 mm layers, gyroid infill, `$fn` 200 |
 
