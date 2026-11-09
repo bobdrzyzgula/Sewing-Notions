@@ -40,8 +40,8 @@ feel which way the blade faces without looking.
 
 1. Print the STL for the size you want (or the set) as it comes, lying on its
    side. No supports. Fine layers (0.12 mm) give the smoothest grip. A
-   brim is a good idea: each tool stands on a narrow flat. PETG is
-   recommended.
+   brim is a good idea: each tool stands on a narrow flat. PLA works
+   well; PETG is tougher.
 2. Turn the piece right side out. Slip the point in through the opening
    and push it gently into each corner, so the seam allowance folds inside
    and the corner comes out to a point.
@@ -52,8 +52,9 @@ a hanging hole.
 
 ## Status
 
-Version 1.0. All three sizes printed as the set, at 0.12 mm layers with
-`$fn` at 200: they come out smooth and sit well in the hand.
+Version 1.0. All three sizes printed as the set in PLA, at 0.12 mm layers
+with gyroid infill and `$fn` at 200: they come out smooth and sit well in
+the hand.
 
 ![The printed set](images/printed_set.jpg)
 

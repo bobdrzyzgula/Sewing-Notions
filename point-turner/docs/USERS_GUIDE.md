@@ -138,13 +138,12 @@ way, flip it over.
 - **Brim:** each tool stands on a narrow flat (about 1 mm wide along the
   blade, a few millimeters along the grip). A brim of 3 to 5 mm holds it
   down, especially at the tip.
-- **Material:** PETG is recommended. It's tough and flexes a little rather
-  than snapping if you lean on the tip. PLA works but is more likely to
-  break at the tip if levered.
+- **Material:** PLA works well; the prototypes are PLA. PETG is tougher:
+  it flexes a little rather than snapping if you lever on the tip.
 - **Walls and infill:** with 3 or 4 walls the blade prints nearly solid.
-  15 to 25% infill is plenty for the grip.
+  15 to 25% infill is plenty for the grip; the prototypes used gyroid.
 - **Layer height:** 0.12 mm layers make the curves of the grip smooth.
-  The prototypes were printed that way, with `$fn` raised to 200.
+  The prototypes were printed that way, in PLA, with `$fn` raised to 200.
 - **Smoothing the tip:** a printed tip has small layer steps. Rub the point
   and the first 20 mm of the blade lightly with fine sandpaper (400 grit or
   finer), so it slides between the fabric layers without catching.
@@ -234,7 +233,8 @@ slow the first layer. The tip is the smallest footprint on the part.
 **It won't reach into a sharp collar point.** Reduce `tip_angle` to 25 to
 30 and `tip_d` to 1.2, and sand the tip. Use the small size.
 
-**The tip broke.** Print in PETG, and use more walls. Don't lever with the
+**The tip broke.** Print in PETG, which bends before it breaks, and use
+more walls. Don't lever with the
 tip; push straight along the blade.
 
 **The handle sits the wrong way when the tip is in the corner.** Turn the
@@ -244,7 +244,7 @@ tool over: the bend is the same on both faces of the blade.
 
 | Version | Date | Changes |
 |---|---|---|
-| 1.0 | November 2026 | First version: small, medium and large presets, custom size, creaser and hanging-hole options. All three printed at 0.12 mm layers with `$fn` 200 |
+| 1.0 | November 2026 | First version: small, medium and large presets, custom size, creaser and hanging-hole options. All three printed in PLA at 0.12 mm layers, gyroid infill, `$fn` 200 |
 
 ## 9. Credits and license
 
