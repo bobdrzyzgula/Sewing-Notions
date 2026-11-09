@@ -221,7 +221,7 @@ All dimensions are in millimeters.
 |---|---|---|
 | `plate_gap` | 6 | Gap between tools when `size = all` |
 | `stations` | 90 | Cross-sections along the tool. More is smoother along its length |
-| `$fn` | 64 | Points around each cross-section, and the smoothness of the pads and hanging hole. 200 is a good choice for a final print; renders take a few seconds |
+| `$fn` | 64 | Points around each cross-section, and the smoothness of the pads and hanging hole. 200 is a good choice for a final print; the large then takes about half a minute to render |
 
 ## 7. Troubleshooting
 
