@@ -32,6 +32,7 @@ feel which way the blade faces without looking.
 | `stl/point_turner_medium.stl` | Ready-to-print medium |
 | `stl/point_turner_large.stl` | Ready-to-print large |
 | `stl/point_turner_set.stl` | All three on one plate |
+| `stl/point_turner_set_left.stl` | All three, left-handed |
 | `docs/USERS_GUIDE.md` | The shape, the sizes, settings, printing and use |
 | `images/` | OpenSCAD renders |
 | `LICENSE` | MIT License |
@@ -47,12 +48,12 @@ feel which way the blade faces without looking.
    and the corner comes out to a point.
 
 The [User's Guide](docs/USERS_GUIDE.md) covers the settings, including a
-custom size, a straight version, a flat creaser paddle on the butt end and
+left-handed version, a custom size, a straight version, a flat creaser paddle on the butt end and
 a hanging hole.
 
 ## Status
 
-Version 1.0. All three sizes printed as the set in PLA, at 0.12 mm layers
+Version 1.1, which adds a left-handed version. Version 1.0: all three sizes printed as the set in PLA, at 0.12 mm layers
 with gyroid infill and `$fn` at 200: they come out smooth and sit well in
 the hand.
 

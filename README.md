@@ -15,7 +15,7 @@ copied) on its own.
 | [Needle Inserter](needle-inserter/) | A tool for putting an HAx1 needle into the machine: a keyed pocket with a spring tab holds the needle by its shank, flat facing the right way, on an upright grip you pinch between thumb and forefinger. | Printed in PETG; tested with #9 to #21 needles |
 | [Bobbin Box](bobbin-box/) | A lidded box of stacking trays for 40 class 15/66 bobbins (or any round bobbin), lifted out together by a center knob; hinged or lift-out lid; optional images on any face. From the [VSM Base](https://github.com/bobdrzyzgula/VSM-Base). | Trays printed and used; the box itself not yet printed |
 | [Tilt Prop](tilt-prop/) | A stand that holds a sewing machine tipped back in its base for oiling and servicing, with a cradle or flat top, level or sloped, on a foot sized to stay upright. From the [VSM Base](https://github.com/bobdrzyzgula/VSM-Base). | Printed in PLA and in use on a Singer 99 |
-| [Point Turner](point-turner/) | A curved, blunt-pointed tool for pushing out the corners of a bag, pillow or collar after it's turned right side out. Small (3 in), medium (4½ in) and large (6 in), with the same tip and grips shaped for their size; optional creaser end and hanging hole. | All three sizes printed in PLA at 0.12 mm layers; smooth and comfortable in the hand |
+| [Point Turner](point-turner/) | A curved, blunt-pointed tool for pushing out the corners of a bag, pillow or collar after it's turned right side out. Small (3 in), medium (4½ in) and large (6 in), with the same tip and grips shaped for their size; right- or left-handed; optional creaser end and hanging hole. | All three sizes printed in PLA at 0.12 mm layers; smooth and comfortable in the hand |
 
 ## Using the models
 

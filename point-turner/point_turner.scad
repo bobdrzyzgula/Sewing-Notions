@@ -26,6 +26,11 @@
 // Preset to make. "all" lays the three presets side by side on one plate
 size = "medium"; // [small, medium, large, custom, all]
 
+// Which hand it's made for. Held in that hand, blade flat and the handle
+// rising off the work, the point's straight edge and the flat along the
+// grip are on the thumb side. "left" is the mirror image of "right"
+hand = "right"; // [right, left]
+
 /* [Tip (same for every size)] */
 // Diameter of the blunt nub at the very tip. Smaller pokes into tighter
 // points but is likelier to push through a loose weave
@@ -272,6 +277,9 @@ module point_turner(name) {
 function width_of(nm) = let(r = row(nm), P = path(r, stations))
     max([for (p = P) p[1]]) + pv(r, "grip_t") / 2 + pv(r, "blade_t") / 2;
 
+module handed() { if (hand == "left") mirror([0, 1, 0]) children(); else children(); }
+
+handed()
 if (size == "all") {
     // stack across Y, each tool's bend clearing the one before
     names = ["large", "medium", "small"];

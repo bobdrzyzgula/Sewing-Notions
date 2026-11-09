@@ -1,6 +1,6 @@
 # Point Turner — User's Guide
 
-Version 1.0
+Version 1.1
 
 The Point Turner was made at the request of Bob Drzyzgula. The design, the
 OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -59,6 +59,16 @@ From the working end back:
 - **The butt** is rounded to sit in your palm. It can be made instead as a
   thin rounded **creaser** paddle for finger-pressing seams open (see
   [section 6](#6-settings-reference)).
+
+- **Handedness.** Hold the tool with the blade flat and the handle rising
+  off the work. The point's straight edge, and the flat that runs along one
+  side of the grip, are then on the thumb side. A right-hander's thumb is on
+  the left; a left-hander's is on the right. So the tool comes in right- and
+  left-handed versions, mirror images of each other. Turning a right-handed
+  tool over doesn't make it left-handed: the bend would then go down into
+  the work.
+
+![Right- and left-handed](../images/render_hands.png)
 
 ![Top view of the large tool, showing the bend](../images/render_top_large.png)
 
@@ -121,9 +131,11 @@ start.
 5. **Shape the seams.** Run the straight edge of the blade along the inside
    of each seam to push it fully out before pressing.
 
-Which way the bend goes: with the tip in a corner and the blade lying flat,
-turn the tool so the handle rises away from the table. If it lies the other
-way, flip it over.
+Which way up: with the tip in a corner and the blade lying flat, the handle
+should rise away from the table, with the point's straight edge on your
+thumb side. If the handle runs down into the work, turn the tool over. If it
+then has the straight edge away from your thumb, you have the other hand's
+version (see `hand` in [section 6](#6-settings-reference)).
 
 ## 5. Printing
 
@@ -148,7 +160,7 @@ way, flip it over.
   and the first 20 mm of the blade lightly with fine sandpaper (400 grit or
   finer), so it slides between the fabric layers without catching.
 - **The set:** `stl/point_turner_set.stl` lays out all three on a 153 ×
-  107 mm plate.
+  107 mm plate; `stl/point_turner_set_left.stl` is the left-handed set.
 
 To make a size that isn't in the STLs, open `point_turner.scad` in
 OpenSCAD, choose the settings in the Customizer (Window › Customizer),
@@ -163,6 +175,12 @@ All dimensions are in millimeters.
 | Setting | Default | Meaning |
 |---|---|---|
 | `size` | `medium` | `small`, `medium`, `large`, `custom` (uses the Custom settings below), or `all` (the three presets laid out on one plate) |
+
+### Hand
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `hand` | `right` | `right` or `left`. The left-handed tool is the mirror image of the right-handed one; it prints the same way |
 
 ### Tip (the same for every size)
 
@@ -238,12 +256,14 @@ more walls. Don't lever with the
 tip; push straight along the blade.
 
 **The handle sits the wrong way when the tip is in the corner.** Turn the
-tool over: the bend is the same on both faces of the blade.
+tool over. If that puts the straight edge of the point away from your
+thumb, print the other hand's version.
 
 ## 8. Version history
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.1 | November 2026 | Left-handed version (`hand`); left-handed set STL |
 | 1.0 | November 2026 | First version: small, medium and large presets, custom size, creaser and hanging-hole options. All three printed in PLA at 0.12 mm layers, gyroid infill, `$fn` 200 |
 
 ## 9. Credits and license
