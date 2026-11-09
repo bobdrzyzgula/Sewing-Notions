@@ -54,8 +54,10 @@ settings.
 
 ## Status
 
-The same design as the VSM Base's tilt prop. This standalone copy hasn't
-been confirmed in a print yet.
+The same design as the VSM Base's tilt prop. Printed in basic PLA at the
+default settings (a 1" cradle, 6" high) and in use: it holds a Singer 99
+tipped back, including one fitted with the chromed light, without much
+deflection.
 
 ## Credits and license
 

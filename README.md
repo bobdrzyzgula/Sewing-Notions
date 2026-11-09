@@ -14,7 +14,7 @@ copied) on its own.
 | [Needle Bin II](needle-bin-ii/) | Needle Bin I plus recessed artwork: up to two SVG images (logos, or text laid out as SVG) on the side, laid flat on a face or wrapped around a round bin, sized as a percentage of the face. | Wrapped artwork printed; flat-face placement checked in OpenSCAD |
 | [Needle Inserter](needle-inserter/) | A tool for putting an HAx1 needle into the machine: a keyed pocket with a spring tab holds the needle by its shank, flat facing the right way, on an upright grip you pinch between thumb and forefinger. | Printed in PETG; tested with #9 to #21 needles |
 | [Bobbin Box](bobbin-box/) | A lidded box of stacking trays for 40 class 15/66 bobbins (or any round bobbin), lifted out together by a center knob; hinged or lift-out lid; optional images on any face. From the [VSM Base](https://github.com/bobdrzyzgula/VSM-Base). | Trays printed and used; the box itself not yet printed |
-| [Tilt Prop](tilt-prop/) | A stand that holds a sewing machine tipped back in its base for oiling and servicing, with a cradle or flat top, level or sloped, on a foot sized to stay upright. From the [VSM Base](https://github.com/bobdrzyzgula/VSM-Base). | Not yet confirmed in a print as a standalone |
+| [Tilt Prop](tilt-prop/) | A stand that holds a sewing machine tipped back in its base for oiling and servicing, with a cradle or flat top, level or sloped, on a foot sized to stay upright. From the [VSM Base](https://github.com/bobdrzyzgula/VSM-Base). | Printed in PLA and in use on a Singer 99 |
 
 ## Using the models
 
