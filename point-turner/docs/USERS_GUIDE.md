@@ -1,6 +1,6 @@
 # Point Turner — User's Guide
 
-Version 1.4
+Version 1.5
 
 The Point Turner was made at the request of Bob Drzyzgula. The design, the
 OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -182,7 +182,16 @@ most people need come first: Size (with `hand`), then Butt end.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `size` | `medium` | `small`, `medium`, `large`, `custom` (uses the Custom settings below), or `all` (the three presets laid out on one plate) |
+| `size` | `medium` | `small`, `medium`, `large`, `custom` (uses the Custom settings below), `all` (the three presets, in the chosen hand, laid out on one plate) or `all_hands` (all nine: the three presets in each of the three hands, with the chosen butt end) |
+
+`all_hands` lays the nine out in a grid: columns right, left and straight;
+rows large, medium and small. The plate is about 470 × 122 mm with round
+ends and 581 × 153 mm with creaser paddles, too big for a 256 mm bed, so
+it's for looking the versions over side by side, or for exporting and
+splitting into plates in the slicer. A full render (F6) takes two to three
+minutes; the preview (F5) is much quicker.
+
+![All nine, round-ended](../images/render_all_hands.png)
 
 ### Hand
 
@@ -283,6 +292,7 @@ thumb, print the other hand's version.
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.5 | November 2026 | `size = all_hands`: all three sizes in all three hands, with the chosen butt end. Single tools and the `all` plates unchanged |
 | 1.4 | November 2026 | `hand = straight` for a tool with no bend; Butt end settings moved up next to Size in the Customizer. Geometry unchanged |
 | 1.3 | November 2026 | The creaser paddle is added beyond the full grip instead of taking its last few centimeters: on the large, the paddle's corner pressed into the palm. Large creaser now 187 mm long. Round-ended tools unchanged. Printing notes: version 1.2 needs no brim |
 | 1.2 | November 2026 | Wider foot on thin sections (`min_foot`): the creaser paddle stood on a 0.3 mm edge and lifted off the bed in PETG; the blade's foot goes from about 1 mm to 2.4 mm. Version 1.1 is superseded; `min_foot` 0 reproduces it |

@@ -23,8 +23,11 @@
 // No libraries needed.
 
 /* [Size] */
-// Preset to make. "all" lays the three presets side by side on one plate
-size = "medium"; // [small, medium, large, custom, all]
+// Preset to make. "all" lays the three presets side by side on one plate,
+// for the hand chosen below. "all_hands" makes all nine (three sizes in
+// each of the three hands), with the chosen butt end; too big for one
+// 256 mm plate, it's for looking them over or exporting to split up
+size = "medium"; // [small, medium, large, custom, all, all_hands]
 
 // Which hand it's made for. Held in that hand, blade flat and the handle
 // rising off the work, the point's straight edge and the flat along the
@@ -198,7 +201,9 @@ function chord_x(r, Lc) = let(n = 200, ds = Lc / n)
 function larc(r) = let(Ln = pv(r, "length") - tip_d / 2) Ln * Ln / chord_x(r, Ln);
 function heading_l(r, L, s) =
     bend_of(r) * sstep((s / L - bend_start) / max(0.01, bend_end - bend_start));
-function bend_of(r) = hand == "straight" ? 0 : bend_deg >= 0 ? bend_deg : pv(r, "bend");
+// $h is the hand being made: normally `hand`, but all_hands sets it per tool
+$h = hand;
+function bend_of(r) = $h == "straight" ? 0 : bend_deg >= 0 ? bend_deg : pv(r, "bend");
 // Arc length of the whole tool: the round-handle tool, plus the creaser
 // paddle and its transition in place of the domed butt
 function cre_ext(r) = butt_style == "creaser"
@@ -304,9 +309,25 @@ module point_turner(name) {
 function width_of(nm) = let(r = row(nm), P = path(r, stations))
     max([for (p = P) p[1]]) + pv(r, "grip_t") / 2 + pv(r, "blade_t") / 2;
 
-module handed() { if (hand == "left") mirror([0, 1, 0]) children(); else children(); }
+module handed() { if ($h == "left") mirror([0, 1, 0]) children(); else children(); }
 
-handed()
+// all_hands layout: columns right, left, straight; rows large, medium, small.
+HANDS = ["right", "left", "straight"];
+SIZES = ["large", "medium", "small"];
+// Y range of a tool as made in hand $h (generous: grip plus palm swell)
+function yr(nm) = let(r = row(nm), P = path(r, stations),
+        half = (pv(r, "grip_t") + pv(r, "belly")) / 2,
+        lo = min([for (p = P) p[1]]) - half, hi = max([for (p = P) p[1]]) + half)
+    $h == "left" ? [-hi, -lo] : [lo, hi];
+function row_h(nm) = max([for (hh = HANDS) let($h = hh, y = yr(nm)) y[1] - y[0]]);
+function row_base(j) = j == 0 ? 0 : row_base(j - 1) + row_h(SIZES[j - 1]) + plate_gap;
+function col_w() = ltot(row("large")) + tip_d + plate_gap;
+
+if (size == "all_hands") {
+    for (i = [0 : 2], j = [0 : 2]) let($h = HANDS[i])
+        translate([i * col_w(), row_base(j) - yr(SIZES[j])[0], 0])
+            handed() point_turner(SIZES[j]);
+} else handed()
 if (size == "all") {
     // stack across Y, each tool's bend clearing the one before
     names = ["large", "medium", "small"];
