@@ -1,6 +1,6 @@
 # Point Turner — User's Guide
 
-Version 1.2
+Version 1.3
 
 The Point Turner was made at the request of Bob Drzyzgula. The design, the
 OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -56,8 +56,10 @@ From the working end back:
   which way the blade faces. On the medium and large it starts with a
   front swell (a finger stop), then a waist where your thumb and finger
   pinch it, then the body of the grip.
-- **The butt** is rounded to sit in your palm. It can be made instead as a
-  thin rounded **creaser** paddle for finger-pressing seams open (see
+- **The butt** is rounded to sit in your palm. Instead, it can carry a
+  thin rounded **creaser** paddle for finger-pressing seams open. The
+  paddle is added beyond the full grip, so the tool gets longer and the
+  hand holds the same grip as on the round-ended tool (see
   [section 6](#6-settings-reference)).
 
 - **Handedness.** Hold the tool with the blade flat and the handle rising
@@ -104,6 +106,7 @@ So the three sizes are one family, scaled where scaling helps:
 | Pinch pads | — | — | 0.8 mm deep, both faces |
 | Palm swell | — | 1.0 mm | 2.0 mm |
 | Printed size (L × W × H) | 76 × 17 × 11.5 mm | 114 × 31 × 16 mm | 152 × 41 × 21.5 mm |
+| Length with a creaser paddle | 106 mm (4.2 in) | 146 mm (5.8 in) | 187 mm (7.4 in) |
 | Weight, solid PETG | about 5 g | about 14 g | about 32 g |
 
 The pinch pads on the large are shallow dished flats on the two faces of
@@ -147,12 +150,13 @@ version (see `hand` in [section 6](#6-settings-reference)).
 - **Why on its side:** every extrusion line then runs along the tool, so
   pushing on the tip loads the plastic along its lines, not the bonds
   between layers. It also means the bend doesn't need support.
-- **Brim:** each tool stands on a narrow flat: 2.4 mm wide along the
-  blade, wider along the grip, and about 2.2 mm under a creaser paddle. A
-  brim of 3 to 5 mm holds it down, especially at the tip. With `min_foot`
-  at its default, the brim is meant to hold a creaser paddle down too.
-  With `min_foot` set to 0, add mouse ears (see
-  [Troubleshooting](#7-troubleshooting)).
+- **Brim:** none needed. Each tool stands on a flat at least 2.4 mm wide
+  along the blade, wider along the grip, and about 2.2 mm under a creaser
+  paddle. A plate of three version 1.2 tools, two of them with creaser
+  paddles, printed cleanly in basic PETG at 0.12 mm layers on a textured
+  PEI plate with no brim or mouse ears. A brim is cheap insurance on a
+  smooth plate or a fussy filament. With `min_foot` set to 0, mouse ears
+  on a creaser paddle are a must (see [Troubleshooting](#7-troubleshooting)).
 - **Material:** PLA works well; the prototypes are PLA. PETG is tougher:
   it flexes a little rather than snapping if you lever on the tip.
 - **Walls and infill:** with 3 or 4 walls the blade prints nearly solid.
@@ -204,8 +208,9 @@ All dimensions are in millimeters.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `butt_style` | `round` | `round`: a domed end for the palm. `creaser`: the grip thins over its last few centimeters to a rounded paddle, for finger-pressing seams open |
+| `butt_style` | `round` | `round`: a domed end for the palm. `creaser`: in place of the dome, the full grip thins to a rounded paddle for finger-pressing seams open. The grip and blade are the same as on the round-ended tool; the tool gets longer (see the table in [section 3](#3-the-three-sizes)). Meant mainly for the large: on the small and medium the grip is held in the fingers and the paddle is more an extension than a handle end |
 | `creaser_t` | 2.6 | Thickness of the creaser paddle |
+| `creaser_trans` | 24 | Length of the thinning from the grip down to the paddle. The paddle itself is twice the butt rounding long: 14, 20 and 26 mm on the small, medium and large |
 | `hang_hole_d` | 0 | Diameter of a hanging hole through the butt, side to side. 0 for none. It's printed with a pointed top so it needs no support; keep it at least 5 mm less than the grip height |
 
 ![The large with a creaser end and a hanging hole](../images/render_creaser.png)
@@ -256,8 +261,8 @@ which do hold it. Better, use the default `min_foot` of 2.4, which gives
 the paddle a 2.2 mm foot. If a paddle still lifts, add mouse ears, slow
 the outer walls, and turn on Z-hop so the nozzle doesn't drag across it.
 
-**The tip lifts or curls during printing.** Add or widen the brim, and
-slow the first layer. The tip is the smallest footprint on the part.
+**The tip lifts or curls during printing.** Add a brim, and slow the
+first layer. The tip is the smallest footprint on the part.
 
 **The tip snags on the fabric.** Sand it smooth (see
 [section 5](#5-printing)). If it still catches, increase `tip_d` to 2.0.
@@ -277,6 +282,7 @@ thumb, print the other hand's version.
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.3 | November 2026 | The creaser paddle is added beyond the full grip instead of taking its last few centimeters: on the large, the paddle's corner pressed into the palm. Large creaser now 187 mm long. Round-ended tools unchanged. Printing notes: version 1.2 needs no brim |
 | 1.2 | November 2026 | Wider foot on thin sections (`min_foot`): the creaser paddle stood on a 0.3 mm edge and lifted off the bed in PETG; the blade's foot goes from about 1 mm to 2.4 mm. Version 1.1 is superseded; `min_foot` 0 reproduces it |
 | 1.1 | November 2026 | Left-handed version (`hand`); left-handed set STL |
 | 1.0 | November 2026 | First version: small, medium and large presets, custom size, creaser and hanging-hole options. All three printed in PLA at 0.12 mm layers, gyroid infill, `$fn` 200 |

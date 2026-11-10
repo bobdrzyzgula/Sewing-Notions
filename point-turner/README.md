@@ -33,6 +33,7 @@ feel which way the blade faces without looking.
 | `stl/point_turner_large.stl` | Ready-to-print large |
 | `stl/point_turner_set.stl` | All three on one plate |
 | `stl/point_turner_set_left.stl` | All three, left-handed |
+| `stl/point_turner_large_creaser.stl` | Large with a creaser paddle and 5 mm hanging hole |
 | `docs/USERS_GUIDE.md` | The shape, the sizes, settings, printing and use |
 | `images/` | OpenSCAD renders |
 | `LICENSE` | MIT License |
@@ -40,24 +41,25 @@ feel which way the blade faces without looking.
 ## Quick start
 
 1. Print the STL for the size you want (or the set) as it comes, lying on its
-   side. No supports. Fine layers (0.12 mm) give the smoothest grip. A
-   brim is a good idea: each tool stands on a narrow flat. PLA works
-   well; PETG is tougher.
+   side. No supports, and no brim needed. Fine layers (0.12 mm) give the
+   smoothest grip. PLA works well; PETG is tougher.
 2. Turn the piece right side out. Slip the point in through the opening
    and push it gently into each corner, so the seam allowance folds inside
    and the corner comes out to a point.
 
 The [User's Guide](docs/USERS_GUIDE.md) covers the settings, including a
-left-handed version, a custom size, a straight version, a flat creaser paddle on the butt end and
-a hanging hole.
+left-handed version, a custom size, a straight version, a flat creaser
+paddle beyond the grip, and a hanging hole.
 
 ## Status
 
-Version 1.2. 1.1 added a left-handed version; 1.2 widens the foot under
-thin sections so a creaser paddle no longer lifts off the bed. Version
-1.0: all three sizes printed as the set in PLA, at 0.12 mm layers with
-gyroid infill and `$fn` at 200: they come out smooth and sit well in the
-hand.
+Version 1.3. 1.1 added a left-handed version; 1.2 widened the foot under
+thin sections, and a plate of 1.2 tools printed cleanly in PETG with no
+brim or mouse ears; 1.3 adds the creaser paddle beyond the full grip
+rather than in place of its end, so its corner stays out of the palm.
+Version 1.0: all three sizes printed as the set in PLA, at 0.12 mm layers
+with gyroid infill and `$fn` at 200: they come out smooth and sit well in
+the hand.
 
 ![The printed set](images/printed_set.jpg)
 

@@ -54,6 +54,11 @@ bend_end = 0.55; // [0.1:0.01:1.0]
 butt_style = "round"; // [round, creaser]
 // Creaser paddle thickness
 creaser_t = 2.6; // [1.6:0.1:5.0]
+// Length of the thinning from the grip down to the paddle. The paddle is
+// added beyond the full round-handle grip, so the tool gets longer by this
+// plus the paddle (twice the butt rounding: 26 mm on the large), less the
+// rounding it replaces
+creaser_trans = 24; // [8:1:60]
 // Hanging hole through the butt (side to side), 0 = none. Keep it smaller
 // than the grip height less about 5 mm
 hang_hole_d = 0; // [0:0.5:8]
@@ -159,7 +164,7 @@ function belly(r, s) = let(L = larc(r), g0 = groove_c(r) + pv(r, "groove_w") / 2
 
 // Face width (Z)
 function prof_h(r, s) =
-    let(L = larc(r), bh = pv(r, "blade_h"),
+    let(L = ltot(r), bh = pv(r, "blade_h"),
         point = smin(tip_d + s * tan(tip_angle), bh, 2.5),
         swell = (pv(r, "grip_h") - bh) * sstep((s - pv(r, "reach")) / pv(r, "swell_len")),
         grv = pv(r, "groove") ? 2 * pv(r, "groove_depth") * bump(s, groove_c(r), pv(r, "groove_w")) : 0,
@@ -173,10 +178,11 @@ function prof_t(r, s) =
         swell = (pv(r, "grip_t") - bt) * sstep((s - pv(r, "reach")) / pv(r, "swell_len")),
         grv = pv(r, "groove") ? 2 * pv(r, "groove_depth") * bump(s, groove_c(r), pv(r, "groove_w")) : 0,
         body = wedge + swell - grv + belly(r, s),
-        // creaser: thin down to a paddle over the last part of the grip
-        cl = 2 * pv(r, "end_len") + 10,
+        // creaser: past the full grip (where the round butt would begin),
+        // thin down to the paddle
+        s0 = L - pv(r, "end_len"),
         cre = butt_style == "creaser"
-            ? body - (body - creaser_t) * sstep((s - (L - cl - 2 * pv(r, "end_len"))) / cl)
+            ? body - (body - creaser_t) * sstep((s - s0) / creaser_trans)
             : body,
         ef = butt_style == "creaser" ? 1 : endf(s, L, pv(r, "end_len")))
     max(cre * ef, END_MIN);
@@ -191,8 +197,13 @@ function larc(r) = let(Ln = pv(r, "length") - tip_d / 2) Ln * Ln / chord_x(r, Ln
 function heading_l(r, L, s) =
     bend_of(r) * sstep((s / L - bend_start) / max(0.01, bend_end - bend_start));
 function bend_of(r) = bend_deg >= 0 ? bend_deg : pv(r, "bend");
+// Arc length of the whole tool: the round-handle tool, plus the creaser
+// paddle and its transition in place of the domed butt
+function cre_ext(r) = butt_style == "creaser"
+    ? creaser_trans + 2 * pv(r, "end_len") - pv(r, "end_len") : 0;
+function ltot(r) = larc(r) + cre_ext(r);
 function heading(r, s) = heading_l(r, larc(r), s);
-function path(r, n) = let(L = larc(r), ds = L / n)
+function path(r, n) = let(L = ltot(r), ds = L / n)
     [for (i = 0, p = [0, 0]; i <= n;
           p = p + ds * [cos(heading(r, (i + 0.5) * ds)), sin(heading(r, (i + 0.5) * ds))],
           i = i + 1) p];
@@ -233,7 +244,7 @@ function ring3(p, th, pts) = [for (q = pts)
 // ---------- the tool ----------
 module point_turner(name) {
     r = row(name);
-    L = larc(r);
+    L = ltot(r);
     n = stations;
     ds = L / n;
     P = path(r, n);
