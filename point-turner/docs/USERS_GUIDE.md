@@ -1,6 +1,6 @@
 # Point Turner — User's Guide
 
-Version 1.3
+Version 1.4
 
 The Point Turner was made at the request of Bob Drzyzgula. The design, the
 OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -175,7 +175,8 @@ render (F6) and export.
 
 ## 6. Settings reference
 
-All dimensions are in millimeters.
+All dimensions are in millimeters. In the OpenSCAD Customizer the settings
+most people need come first: Size (with `hand`), then Butt end.
 
 ### Size
 
@@ -187,7 +188,18 @@ All dimensions are in millimeters.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `hand` | `right` | `right` or `left`. The left-handed tool is the mirror image of the right-handed one; it prints the same way. A straight tool (`bend_deg` 0) is symmetric side to side, so the two come out the same |
+| `hand` | `right` | `right`, `left` or `straight`. The left-handed tool is the mirror image of the right-handed one; it prints the same way. `straight` makes the tool with no bend, which suits either hand: a straight tool is symmetric side to side, so a right- and left-handed version would come out the same. It overrides `bend_deg` |
+
+### Butt end
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `butt_style` | `round` | `round`: a domed end for the palm. `creaser`: in place of the dome, the full grip thins to a rounded paddle for finger-pressing seams open. The grip and blade are the same as on the round-ended tool; the tool gets longer (see the table in [section 3](#3-the-three-sizes)). Meant mainly for the large: on the small and medium the grip is held in the fingers and the paddle is more an extension than a handle end |
+| `creaser_t` | 2.6 | Thickness of the creaser paddle |
+| `creaser_trans` | 24 | Length of the thinning from the grip down to the paddle. The paddle itself is twice the butt rounding long: 14, 20 and 26 mm on the small, medium and large |
+| `hang_hole_d` | 0 | Diameter of a hanging hole through the butt, side to side. 0 for none. It's printed with a pointed top so it needs no support; keep it at least 5 mm less than the grip height |
+
+![The large with a creaser end and a hanging hole](../images/render_creaser.png)
 
 ### Tip (the same for every size)
 
@@ -201,19 +213,8 @@ All dimensions are in millimeters.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `bend_deg` | −1 | Total bend in degrees. −1 uses the size's own (15° small, 20° medium and large); 0 makes a straight tool |
+| `bend_deg` | −1 | Total bend in degrees. −1 uses the size's own (15° small, 20° medium and large); 0 makes a straight tool, as does `hand = straight`, which overrides this |
 | `bend_start`, `bend_end` | 0.18, 0.55 | Where the bend begins and ends, as fractions of the length. Bringing them closer together makes a sharper elbow |
-
-### Butt end
-
-| Setting | Default | Meaning |
-|---|---|---|
-| `butt_style` | `round` | `round`: a domed end for the palm. `creaser`: in place of the dome, the full grip thins to a rounded paddle for finger-pressing seams open. The grip and blade are the same as on the round-ended tool; the tool gets longer (see the table in [section 3](#3-the-three-sizes)). Meant mainly for the large: on the small and medium the grip is held in the fingers and the paddle is more an extension than a handle end |
-| `creaser_t` | 2.6 | Thickness of the creaser paddle |
-| `creaser_trans` | 24 | Length of the thinning from the grip down to the paddle. The paddle itself is twice the butt rounding long: 14, 20 and 26 mm on the small, medium and large |
-| `hang_hole_d` | 0 | Diameter of a hanging hole through the butt, side to side. 0 for none. It's printed with a pointed top so it needs no support; keep it at least 5 mm less than the grip height |
-
-![The large with a creaser end and a hanging hole](../images/render_creaser.png)
 
 ### Cross-section
 
@@ -282,6 +283,7 @@ thumb, print the other hand's version.
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.4 | November 2026 | `hand = straight` for a tool with no bend; Butt end settings moved up next to Size in the Customizer. Geometry unchanged |
 | 1.3 | November 2026 | The creaser paddle is added beyond the full grip instead of taking its last few centimeters: on the large, the paddle's corner pressed into the palm. Large creaser now 187 mm long. Round-ended tools unchanged. Printing notes: version 1.2 needs no brim |
 | 1.2 | November 2026 | Wider foot on thin sections (`min_foot`): the creaser paddle stood on a 0.3 mm edge and lifted off the bed in PETG; the blade's foot goes from about 1 mm to 2.4 mm. Version 1.1 is superseded; `min_foot` 0 reproduces it |
 | 1.1 | November 2026 | Left-handed version (`hand`); left-handed set STL |

@@ -53,13 +53,13 @@ paddle beyond the grip, and a hanging hole.
 
 ## Status
 
-Version 1.3. 1.1 added a left-handed version; 1.2 widened the foot under
+Version 1.4. 1.1 added a left-handed version; 1.2 widened the foot under
 thin sections, and a plate of 1.2 tools printed cleanly in PETG with no
 brim or mouse ears; 1.3 adds the creaser paddle beyond the full grip
-rather than in place of its end, so its corner stays out of the palm.
-Version 1.0: all three sizes printed as the set in PLA, at 0.12 mm layers
-with gyroid infill and `$fn` at 200: they come out smooth and sit well in
-the hand.
+rather than in place of its end, so its corner stays out of the palm; 1.4
+adds a straight option to `hand`. Version 1.0: all three sizes printed as
+the set in PLA, at 0.12 mm layers with gyroid infill and `$fn` at 200:
+they come out smooth and sit well in the hand.
 
 ![The printed set](images/printed_set.jpg)
 

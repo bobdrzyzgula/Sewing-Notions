@@ -28,25 +28,9 @@ size = "medium"; // [small, medium, large, custom, all]
 
 // Which hand it's made for. Held in that hand, blade flat and the handle
 // rising off the work, the point's straight edge and the flat along the
-// grip are on the thumb side. "left" is the mirror image of "right"
-hand = "right"; // [right, left]
-
-/* [Tip (same for every size)] */
-// Diameter of the blunt nub at the very tip. Smaller pokes into tighter
-// points but is likelier to push through a loose weave
-tip_d = 1.6; // [0.8:0.1:3.0]
-// Included angle of the point, seen face-on. Must be sharper than the
-// corners you turn (most are 90; collar points can be 60 or less)
-tip_angle = 35; // [20:1:60]
-// Distance over which the thickness grows from the nub to the full blade
-thick_taper = 22; // [8:1:50]
-
-/* [Bend] */
-// Total bend from tip to grip, degrees. 0 = straight
-bend_deg = -1; // [-1:1:45]
-// Where the bend starts and ends, as fractions of the length (-1 = preset)
-bend_start = 0.18; // [0.0:0.01:0.9]
-bend_end = 0.55; // [0.1:0.01:1.0]
+// grip are on the thumb side. "left" is the mirror image of "right".
+// "straight" makes it with no bend, which suits either hand
+hand = "right"; // [right, left, straight]
 
 /* [Butt end] */
 // round = domed end for the palm; creaser = thin rounded paddle for
@@ -62,6 +46,24 @@ creaser_trans = 24; // [8:1:60]
 // Hanging hole through the butt (side to side), 0 = none. Keep it smaller
 // than the grip height less about 5 mm
 hang_hole_d = 0; // [0:0.5:8]
+
+/* [Tip (same for every size)] */
+// Diameter of the blunt nub at the very tip. Smaller pokes into tighter
+// points but is likelier to push through a loose weave
+tip_d = 1.6; // [0.8:0.1:3.0]
+// Included angle of the point, seen face-on. Must be sharper than the
+// corners you turn (most are 90; collar points can be 60 or less)
+tip_angle = 35; // [20:1:60]
+// Distance over which the thickness grows from the nub to the full blade
+thick_taper = 22; // [8:1:50]
+
+/* [Bend] */
+// Total bend from tip to grip, degrees. -1 = the size's own (15 on the
+// small, 20 on the others); 0 = straight. Ignored when hand = straight
+bend_deg = -1; // [-1:1:45]
+// Where the bend starts and ends, as fractions of the length
+bend_start = 0.18; // [0.0:0.01:0.9]
+bend_end = 0.55; // [0.1:0.01:1.0]
 
 /* [Cross-section] */
 // Width of the flat on the bed, as a fraction of the half-thickness.
@@ -196,7 +198,7 @@ function chord_x(r, Lc) = let(n = 200, ds = Lc / n)
 function larc(r) = let(Ln = pv(r, "length") - tip_d / 2) Ln * Ln / chord_x(r, Ln);
 function heading_l(r, L, s) =
     bend_of(r) * sstep((s / L - bend_start) / max(0.01, bend_end - bend_start));
-function bend_of(r) = bend_deg >= 0 ? bend_deg : pv(r, "bend");
+function bend_of(r) = hand == "straight" ? 0 : bend_deg >= 0 ? bend_deg : pv(r, "bend");
 // Arc length of the whole tool: the round-handle tool, plus the creaser
 // paddle and its transition in place of the domed butt
 function cre_ext(r) = butt_style == "creaser"
