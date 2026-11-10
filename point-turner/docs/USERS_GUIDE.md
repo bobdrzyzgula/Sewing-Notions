@@ -188,8 +188,10 @@ most people need come first: Size (with `hand`), then Butt end.
 rows large, medium and small. The plate is about 470 × 122 mm with round
 ends and 581 × 153 mm with creaser paddles, too big for a 256 mm bed, so
 it's for looking the versions over side by side, or for exporting and
-splitting into plates in the slicer. A full render (F6) takes two to three
-minutes; the preview (F5) is much quicker.
+splitting into plates in the slicer. With a recent OpenSCAD using the
+Manifold engine, a full render (F6) takes about 20 seconds on a Ryzen 7
+5700G desktop; the older CGAL engine (OpenSCAD 2021.01 and earlier) takes
+two to three minutes.
 
 ![All nine, round-ended](../images/render_all_hands.png)
 
@@ -257,7 +259,7 @@ minutes; the preview (F5) is much quicker.
 |---|---|---|
 | `plate_gap` | 6 | Gap between tools when `size = all` |
 | `stations` | 90 | Cross-sections along the tool. More is smoother along its length |
-| `$fn` | 64 | Points around each cross-section, and the smoothness of the pads and hanging hole. 200 is a good choice for a final print; the large then takes about half a minute to render |
+| `$fn` | 64 | Points around each cross-section, and the smoothness of the pads and hanging hole. 200 is a good choice for a final print; it renders quickly with the Manifold engine in recent OpenSCAD, in about half a minute for the large with the older CGAL engine |
 
 ## 7. Troubleshooting
 
