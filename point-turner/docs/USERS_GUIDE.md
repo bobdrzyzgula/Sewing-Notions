@@ -154,7 +154,8 @@ version (see `hand` in [section 6](#6-settings-reference)).
   along the blade, wider along the grip, and about 2.2 mm under a creaser
   paddle. A plate of three version 1.2 tools, two of them with creaser
   paddles, printed cleanly in basic PETG at 0.12 mm layers on a textured
-  PEI plate with no brim or mouse ears. A brim is cheap insurance on a
+  PEI plate with no brim or mouse ears, and so did all nine version 1.3+
+  creasers (every size and hand, with the full grip). A brim is cheap insurance on a
   smooth plate or a fussy filament. With `min_foot` set to 0, mouse ears
   on a creaser paddle are a must (see [Troubleshooting](#7-troubleshooting)).
 - **Material:** PLA works well; the prototypes are PLA. PETG is tougher:
@@ -294,6 +295,7 @@ thumb, print the other hand's version.
 
 | Version | Date | Changes |
 |---|---|---|
+| 1.5.1 | November 2026 | No design change. All nine creaser versions (every size and hand) printed cleanly in PETG with no brim or mouse ears; the design is considered settled |
 | 1.5 | November 2026 | `size = all_hands`: all three sizes in all three hands, with the chosen butt end. Single tools and the `all` plates unchanged |
 | 1.4 | November 2026 | `hand = straight` for a tool with no bend; Butt end settings moved up next to Size in the Customizer. Geometry unchanged |
 | 1.3 | November 2026 | The creaser paddle is added beyond the full grip instead of taking its last few centimeters: on the large, the paddle's corner pressed into the palm. Large creaser now 187 mm long. Round-ended tools unchanged. Printing notes: version 1.2 needs no brim |
