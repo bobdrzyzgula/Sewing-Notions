@@ -68,9 +68,14 @@ The [User's Guide](docs/USERS_GUIDE.md) covers every setting.
 
 ## Status
 
-Version 1.1. Not yet printed. Every part, washer size and option has been
-rendered and checked in OpenSCAD (2021.01 with current BOSL2). Version 1.1
-adds artwork on the box lid and under the box.
+Version 1.1. The weights have been printed and work: a ½ in USS set in
+PETG, and a ⅝ in USS set in PLA with a silk PLA inlay on the lid. The box
+is not yet printed. Every part, washer size and option has been rendered
+and checked in OpenSCAD (2021.01 with current BOSL2).
+
+| Engraved and inlaid lids | Inside: plug ring on the washers | Felt-pad bases |
+|---|---|---|
+| ![Lids](images/photo_lids.jpg) | ![Inside](images/photo_inside.jpg) | ![Bases](images/photo_bottoms.jpg) |
 
 ## Credits and license
 
