@@ -1,6 +1,6 @@
 # Pattern Weights — User's Guide
 
-Version 1.4.1
+Version 1.4.2
 
 The Pattern Weights were made at the request of Bob Drzyzgula. The design,
 the OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -223,17 +223,25 @@ A flexible tab hangs from the front of the lid into a channel in a boss on
 the box. Its hook rides down the channel floor and snaps into a pocket with
 a square roof. To open, pull the flared tip of the tab outward and lift.
 
-The hook's catching face, and the pocket roof above it, tilt back
-`latch_angle` (10°). A load trying to open the lid, such as weights
-sliding against it when the box tips, pulls the hook further into the
-pocket instead of camming it out, so a full box can be held upside down. The hinge, the latch, and the lip
+The hook's catching face and the pocket roof meet flat, so lifting the
+lid doesn't cam the hook out: a full box can be held upside down. How
+firmly it stays shut when the box is knocked depends on the hook depth
+and the tab's stiffness.
+
+`latch_angle` can tilt the catching face and pocket roof back, so a
+lifting load pulls the hook further into the pocket. It defaults to 0
+because the lid prints face-down: with any tilt, the hook's first layer
+is a thin strip at its tip with nothing under it, so the hook needs a
+support (paint a support enforcer under it in the slicer). The hinge, the latch, and the lip
 around the underside of the lid share the load. The latch isn't designed
 to survive being dropped.
 
 The latch width is automatic (12 mm, narrower on small boxes;
 `latch_width_override` sets it). `latch_thickness`, `latch_length`,
-`latch_hook` (1.8 mm) and `latch_angle` set the tab's stiffness, flex
-length, hook depth and the catching face's tilt.
+`latch_hook` (1.8 mm) and `latch_angle` (0°) set the tab's stiffness,
+flex length, hook depth and the catching face's tilt. For a firmer
+latch, raise `latch_thickness` to 1.8 mm first: stiffness goes as the
+cube of the thickness.
 
 ## 9. Parts and printing
 
@@ -333,7 +341,7 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
 | `latch_thickness` | 1.6 | Latch tab thickness |
 | `latch_length` | 14 | Flexing length |
 | `latch_hook` | 1.8 | Hook depth |
-| `latch_angle` | 10 | Back-tilt of the hook's catching face, degrees |
+| `latch_angle` | 0 | Back-tilt of the hook's catching face, degrees (above 0 the hook needs support) |
 | `steel_density`, `plastic_density` | 7.85, 1.27 | For the mass report |
 
 ## 12. Troubleshooting
@@ -347,8 +355,8 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
   the range. Add a washer, or use a custom washer with your measured
   thickness.
 - **The latch is too stiff or too weak**: change `latch_thickness` by
-  0.2 mm at a time. If it holds firmly but lets go when the box is
-  knocked, raise `latch_hook` or `latch_angle` instead.
+  0.2 mm at a time. If it lets go when the box is knocked, raise
+  `latch_hook` or `latch_thickness`.
 - **The artwork is missing**: the SVG's shapes need fills, and the file
   path is relative to the `.scad` file.
 - **The slicer reports a non-manifold edge or reversed faces**: these
@@ -368,6 +376,9 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
 
 ## 13. Version history
 
+- **1.4.2**: `latch_angle` defaults to 0 again. Bob found in the slicer
+  that the 10° tilt started the hook with an unanchored strip at its tip
+  on the face-down lid.
 - **1.4.1**: the model's internal values (clearances, gaps and the like)
   no longer appear in the Customizer, so saved presets can't capture
   them and override later fixes.

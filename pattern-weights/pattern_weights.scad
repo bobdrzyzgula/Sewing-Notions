@@ -4,7 +4,7 @@
 //
 //  Written by Claude (Anthropic) at the direction of Bob Drzyzgula,
 //  replacing his earlier MakerWorld-generated "full set".
-//  Version 1.4.1 (internal values kept out of Customizer presets)
+//  Version 1.4.2 (latch hook prints without support again: tilt defaults to 0)
 //  License: MIT
 //
 //  Requires BOSL2 (https://github.com/BelfrySCAD/BOSL2) on the
@@ -141,8 +141,10 @@ latch_thickness = 1.6; // [1:0.1:3]
 latch_length = 14; // [8:0.5:25]
 // Depth of the hook (mm)
 latch_hook = 1.8; // [0.8:0.1:2.5]
-// Back-tilt of the hook's catching face (load pulls the hook in, not out)
-latch_angle = 10; // [0:1:20]
+// Back-tilt of the hook's catching face, degrees. Above 0 a lifting load pulls
+// the hook in, but the face-down lid then starts the hook with an unanchored
+// strip at its tip, so the hook needs support. 0 prints without support.
+latch_angle = 0; // [0:1:20]
 
 /* [Material and resolution] */
 steel_density = 7.85; // [7:0.01:8.5]
