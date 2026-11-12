@@ -1,6 +1,6 @@
 # Pattern Weights — User's Guide
 
-Version 1.1
+Version 1.2
 
 The Pattern Weights were made at the request of Bob Drzyzgula. The design,
 the OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -326,11 +326,26 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
   0.2 mm at a time.
 - **The artwork is missing**: the SVG's shapes need fills, and the file
   path is relative to the `.scad` file.
+- **The slicer reports a non-manifold edge or reversed faces**: this
+  came from surfaces that exactly touched in version 1.1's hinge and
+  latch, and is fixed in 1.2. If it ever recurs, the slicer's Repair is
+  safe: it closes a gap measured in microns and doesn't change the
+  shape. In OpenSCAD's Preferences, switching the geometry backend from
+  Manifold to CGAL for the final render (slower, but exact) also avoids
+  it.
+- **The inlay comes out as painted faces rather than a separate part**:
+  your OpenSCAD merged the artwork into the lid and kept only the
+  colours of its faces. Turn on the **lazy-union** feature in
+  Preferences, Features, and the artwork exports as its own part.
 - **The box is too tall for the printer**: the report warns above 250 mm.
   Reduce `box_count`.
 
 ## 13. Version history
 
+- **1.2**: hinge and latch geometry reworked so no two surfaces share a
+  plane, an edge or a vertex. In 1.1, newer OpenSCAD builds (with the
+  Manifold engine) could export a box or box lid that the slicer flagged
+  for a non-manifold edge or reversed faces.
 - **1.1**: artwork on the box lid and under the box.
 - **1.0**: first version. Weights for any common washer, felt pad base, a
   threaded lid that clamps any stack in range, lid artwork, mass report,

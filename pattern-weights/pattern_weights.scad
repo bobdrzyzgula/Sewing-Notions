@@ -4,7 +4,7 @@
 //
 //  Written by Claude (Anthropic) at the direction of Bob Drzyzgula,
 //  replacing his earlier MakerWorld-generated "full set".
-//  Version 1.1 (box lid and bottom artwork added)
+//  Version 1.2 (cleaner hinge geometry for floating-point CSG engines)
 //  License: MIT
 //
 //  Requires BOSL2 (https://github.com/BelfrySCAD/BOSL2) on the
@@ -321,9 +321,12 @@ lip_h  = 3; lip_t = 1.6; lip_gap = 0.3;
 kr      = max(3.2, hinge_pin_hole/2 + 2.0);               // knuckle radius
 k_gap   = 0.4;
 hinge_y = B_out/2 + kr + k_gap;
-hinge_z = box_H + lid_t - kr;                            // knuckle tops flush with lid top
+knuckle_flat = 0.3;                                      // knuckle tops cut flat, flush with lid top
+hinge_z = box_H + lid_t - kr + knuckle_flat;
 flat_len = B_out - 2 * r_out;
-hinge_len = min(B_out - 2*box_wall - 4, flat_len + r_out);
+// 0.9137: keeps the knuckle ends off the corner curve's facet vertices (a
+// knuckle end through a vertex leaves a non-manifold edge)
+hinge_len = min(B_out - 2*box_wall - 4, flat_len + 0.9137 * r_out);
 n_knuckles = hinge_len >= 45 ? 5 : 3;
 k_len = (hinge_len - (n_knuckles - 1) * k_gap) / n_knuckles;
 // latch
@@ -494,6 +497,14 @@ module rsq_prism(side, r, h, c1 = 0, c2 = 0) {
     }
 }
 
+// knuckle barrel in the (y, z) profile, its top cut flat at the lid's top face
+module barrel_2d() {
+    intersection() {
+        translate([hinge_y, hinge_z]) circle(r = kr);
+        translate([0, -1000]) square([1000, 1000 + box_H + lid_t]);
+    }
+}
+
 // back hinge: knuckle i belongs to the box if i is even, to the lid if odd
 function k_x(i) = -hinge_len/2 + i * (k_len + k_gap);
 
@@ -501,34 +512,39 @@ module box_knuckles() {
     y_s = B_out/2 - box_wall - 6;            // web anchors inside the wall; cavity cut trims it
     drop = hinge_y - y_s + kr * 1.42;        // gives a ~45 degree underside
     for (i = [0 : 2 : n_knuckles-1]) yz_extrude(k_x(i), k_len) {
-        translate([hinge_y, hinge_z]) circle(r = kr);
+        barrel_2d();
         intersection() {
             hull() {
-                translate([hinge_y, hinge_z]) circle(r = kr);
+                barrel_2d();
                 translate([y_s, hinge_z - drop]) square([0.1, drop]);
             }
-            translate([0, -1000]) square([1000, 1000 + hinge_z]);   // web stays below the axis
+            // web stays at or below the rim, clear of the lid
+            translate([0, -1000]) square([1000, 1000 + min(hinge_z, box_H)]);
         }
     }
 }
 
 module lid_knuckles() {
     for (i = [1 : 2 : n_knuckles-1]) yz_extrude(k_x(i), k_len) {
-        translate([hinge_y, hinge_z]) circle(r = kr);
+        barrel_2d();
         intersection() {
             hull() {
-                translate([hinge_y, hinge_z]) circle(r = kr);
-                translate([B_out/2 - 4, box_H]) square([4, lid_t]);
+                barrel_2d();
+                // anchor block kept inside the plate so no face is shared with the plate's top
+                translate([B_out/2 - 4.5, box_H + 0.3]) square([2.5, lid_t - 1.3]);
             }
             translate([0, box_H]) square([1000, 100]);               // web stays above the rim
         }
     }
 }
 
+// Clearance around the other part's knuckles. Its radius and length stop
+// half the gap short of everything else, so no surface merely grazes another
+// (a near-touch can leave a non-manifold edge in floating-point CSG engines).
 module knuckle_clearance(first) {
     for (i = [first : 2 : n_knuckles-1])
-        translate([k_x(i) - k_gap, hinge_y, hinge_z]) rotate([0, 90, 0])
-            cylinder(r = kr + k_gap, h = k_len + 2*k_gap);
+        translate([k_x(i) - k_gap/2, hinge_y, hinge_z]) rotate([0, 90, 0])
+            cylinder(r = kr + k_gap/2, h = k_len + k_gap);
 }
 
 module pin_hole() {
@@ -578,7 +594,11 @@ module box_lid() {
                 translate([0, 0, box_H + lid_t - eps]) linear_extrude(eps) rsq(B_out - 1.2, r_out - 0.6);
             }
             // tongue over the latch boss
-            translate([-boss_w/2, y_face, box_H]) cube([boss_w, boss_p + r_out*0.3, lid_t]);
+            // (it stops 0.5 mm short of the locating lip so the two never touch)
+            translate([0, 0, box_H]) linear_extrude(lid_t) difference() {
+                translate([-boss_w/2, y_face]) square([boss_w, -y_face]);
+                rsq(B_in - 2*lip_gap + 1.0, max(0.5, r_in - lip_gap + 0.5));
+            }
             // locating lip inside the rim
             translate([0, 0, box_H - lip_h]) linear_extrude(lip_h + eps)
                 difference() {
@@ -587,13 +607,13 @@ module box_lid() {
                 }
             lid_knuckles();
             // latch tab
-            translate([-latch_width/2, y_face, tab_bot]) cube([latch_width, latch_thickness, box_H - tab_bot + eps]);
+            translate([-latch_width/2, y_face, tab_bot + 1]) cube([latch_width, latch_thickness, box_H - tab_bot - 1 + 0.5]);   // 0.5 into the plate
             // hook: flat top bears on the pocket roof, 45-degree lead-in below
             yz_extrude(-(latch_width/2 - 1), latch_width - 2)
-                polygon([[yt - eps, zc], [yt + latch_hook, zc], [yt + latch_hook, zc - 0.6], [yt - eps, zc - 0.6 - latch_hook]]);
+                polygon([[yt - 0.3, zc], [yt + latch_hook, zc], [yt + latch_hook, zc - 0.6], [yt - 0.3, zc - 0.6 - latch_hook - 0.3]]);
             // finger pull: outward kick at the tab tip
             yz_extrude(-latch_width/2, latch_width)
-                polygon([[y_face + eps, tab_bot], [y_face - 1.5, tab_bot], [y_face + eps, tab_bot + 3]]);
+                polygon([[y_face + latch_thickness, tab_bot], [y_face - 1.5, tab_bot], [y_face, tab_bot + 3], [y_face + latch_thickness, tab_bot + 3]]);
         }
         knuckle_clearance(0);
         pin_hole();
