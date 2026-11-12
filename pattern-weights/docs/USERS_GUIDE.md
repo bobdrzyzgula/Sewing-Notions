@@ -1,6 +1,6 @@
 # Pattern Weights — User's Guide
 
-Version 1.2
+Version 1.3
 
 The Pattern Weights were made at the request of Bob Drzyzgula. The design,
 the OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -171,12 +171,19 @@ the plate it's cut into, so the plate stays as strong as before.
 
 ### Printing inlays
 
-The artwork solids are separate, colour-tagged objects. Exported as 3MF
-from an OpenSCAD build that keeps colours (lazy-union), they open in the
-slicer as separate parts, and the slicer asks which filament each gets.
-With OpenSCAD 2021.01, export the part and its artwork separately as STLs
-(`lid_only` and `inlay`, `box_only` and `box_lid_only` with `box_inlays`),
-then add the artwork to the part in the slicer as a second part.
+Every colour is its own solid. With the **lazy-union** feature turned on
+(OpenSCAD Preferences, Features), a 3MF export holds one object per
+colour: for `box_set` with an inlaid lid, that's the box, the lid and the
+lid's artwork. When you open it, Bambu Studio or OrcaSlicer asks whether
+to load the objects as a single object with multiple parts. Say yes, then
+pick a filament for each part. Each colour has to be its own object
+because neither slicer reliably uses colours painted on the faces of a
+single object, and OrcaSlicer ignores them entirely.
+
+With OpenSCAD 2021.01, which has no lazy-union, export the part and its
+artwork separately as STLs (`lid_only` and `inlay`, `box_only` and
+`box_lid_only` with `box_inlays`), then add the artwork to the part in the
+slicer as a second part.
 
 `examples/spool.svg` is a placeholder thread spool. Use any SVG with filled
 shapes; outlines with no fill import as nothing.
@@ -326,22 +333,26 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
   0.2 mm at a time.
 - **The artwork is missing**: the SVG's shapes need fills, and the file
   path is relative to the `.scad` file.
-- **The slicer reports a non-manifold edge or reversed faces**: this
-  came from surfaces that exactly touched in version 1.1's hinge and
-  latch, and is fixed in 1.2. If it ever recurs, the slicer's Repair is
-  safe: it closes a gap measured in microns and doesn't change the
-  shape. In OpenSCAD's Preferences, switching the geometry backend from
-  Manifold to CGAL for the final render (slower, but exact) also avoids
-  it.
-- **The inlay comes out as painted faces rather than a separate part**:
-  your OpenSCAD merged the artwork into the lid and kept only the
-  colours of its faces. Turn on the **lazy-union** feature in
-  Preferences, Features, and the artwork exports as its own part.
+- **The slicer reports a non-manifold edge or reversed faces**: these
+  are degenerate triangles from solids that touched exactly, fixed in
+  1.3. If it recurs, perhaps from artwork whose outline touches itself,
+  the slicer's Repair is safe: it removes triangles of zero area and
+  doesn't change the shape.
+- **The slicer doesn't see the artwork as a separate colour**: turn on
+  lazy-union, and accept the slicer's offer to load the objects as one
+  object with several parts (section 7).
 - **The box is too tall for the printer**: the report warns above 250 mm.
   Reduce `box_count`.
 
 ## 13. Version history
 
+- **1.3**: no two solids in a union share a face, edge or vertex
+  anywhere in the model, and each colour exports as its own 3MF object.
+  Exports from OpenSCAD's Manifold engine had shown degenerate
+  triangles (reported as a non-manifold edge and reversed faces) where
+  solids touched exactly, and lid artwork had come out as painted faces.
+  The box lid's top edge is no longer chamfered, and an overcap body is
+  now 0.4 mm wider than its thread.
 - **1.2**: hinge and latch geometry reworked so no two surfaces share a
   plane, an edge or a vertex. In 1.1, newer OpenSCAD builds (with the
   Manifold engine) could export a box or box lid that the slicer flagged

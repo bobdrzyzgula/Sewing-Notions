@@ -4,7 +4,7 @@
 //
 //  Written by Claude (Anthropic) at the direction of Bob Drzyzgula,
 //  replacing his earlier MakerWorld-generated "full set".
-//  Version 1.2 (cleaner hinge geometry for floating-point CSG engines)
+//  Version 1.3 (no shared faces between unioned solids; one 3MF object per colour)
 //  License: MIT
 //
 //  Requires BOSL2 (https://github.com/BelfrySCAD/BOSL2) on the
@@ -224,7 +224,7 @@ D_root  = d_bore + 2 * wall;               // neck diameter at thread root
 D_major = D_root + 2 * t_depth;            // thread major diameter
 skirt_plain_gap = 0.4;                     // radial gap, plain skirt over threads/body
 D_lid   = D_major + 2 * wall + 0.4;        // lid outside diameter
-D_body  = weight_style == "flush" ? D_lid : D_major;
+D_body  = weight_style == "flush" ? D_lid : D_major + 0.4;   // overcap: 0.2 proud of the thread crests
 
 top_base  = max(2.4, wall);
 top_thick = top_base + ((svg_mode == "engrave" || svg_mode == "inlay") ? svg_depth : 0);
@@ -371,12 +371,17 @@ assert(w_id < w_od, "Washer ID must be less than OD");
 //  Weight geometry
 // ---------------------------------------------------------------------
 module body_profile_2d() {
+    // flush: base ends at the reveal shoulder (chamfered); overcap: base runs
+    // 0.5 up into the thread so the two never merely touch
+    flush = weight_style == "flush";
+    zt = z_shoulder;   // = z_tb for overcap
     ch = min(0.6, (z_shoulder - taper_h) / 2);
     polygon(concat(
-        [[1, 0]],
+        [[0, 0]],
         [[r_foot - 0.4, 0]],                 // tiny foot chamfer for elephant's foot
         [for (i=[0:len(taper_pts)-1]) i == 0 ? taper_pts[0] + [0, 0.4] : taper_pts[i]],
-        [[R_body, z_shoulder - ch], [R_body - ch, z_shoulder], [1, z_shoulder]]
+        flush ? [[R_body, zt - ch], [R_body - ch, zt]] : [[R_body, zt]],
+        [[0, zt]]
     ));
 }
 
@@ -384,11 +389,13 @@ module weight_body() {
     difference() {
         union() {
             rotate_extrude() body_profile_2d();
-            cylinder(r = 1.5, h = z_shoulder);   // fill the axis (avoids an open rotate_extrude mesh)
             if (weight_style == "flush")
-                translate([0, 0, z_shoulder - eps]) cylinder(d = D_root, h = z_tb - z_shoulder + 2*eps);
-            translate([0, 0, z_tb])
-                trapezoidal_threaded_rod(d = D_major, l = L_thread, pitch = pitch, thread_angle = 90,
+                // slightly under the thread root, overlapping base and thread
+                translate([0, 0, z_shoulder - 0.3]) cylinder(d = D_root - 0.4, h = z_tb - z_shoulder + 0.8);
+            // thread starts 0.53 down inside the neck/base (not a fraction of the pitch,
+            // so no ring of thread vertices lands on the base's top face)
+            translate([0, 0, z_tb - 0.53])
+                trapezoidal_threaded_rod(d = D_major, l = L_thread + 0.53, pitch = pitch, thread_angle = 90,
                     thread_depth = t_depth, starts = thread_starts, bevel1 = false, bevel2 = true,
                     anchor = BOTTOM);
         }
@@ -519,7 +526,7 @@ module box_knuckles() {
                 translate([y_s, hinge_z - drop]) square([0.1, drop]);
             }
             // web stays at or below the rim, clear of the lid
-            translate([0, -1000]) square([1000, 1000 + min(hinge_z, box_H)]);
+            translate([0, -1000]) square([1000, 1000 + min(hinge_z, box_H - 0.3)]);
         }
     }
 }
@@ -531,9 +538,9 @@ module lid_knuckles() {
             hull() {
                 barrel_2d();
                 // anchor block kept inside the plate so no face is shared with the plate's top
-                translate([B_out/2 - 4.5, box_H + 0.3]) square([2.5, lid_t - 1.3]);
+                translate([B_out/2 - 4.5, box_H + 0.6]) square([2.5, lid_t - 1.6]);
             }
-            translate([0, box_H]) square([1000, 100]);               // web stays above the rim
+            translate([0, box_H + 0.3]) square([1000, 100]);         // web underside clear of the plate's underside
         }
     }
 }
@@ -562,7 +569,7 @@ module storage_box() {
             box_knuckles();
             // latch boss with a 45-degree underside
             yz_extrude(-boss_w/2, boss_w) hull() {
-                translate([y_face, box_H - boss_len]) square([boss_p + r_out*0.3, boss_len]);
+                translate([y_face, box_H - boss_len]) square([boss_p + r_out*0.3, boss_len - 0.3]);   // top 0.3 below the rim
                 translate([-B_out/2 + r_out*0.3 - 0.1, box_H - boss_len - boss_p - r_out*0.3]) square([0.1, 0.1]);
             }
         }
@@ -589,31 +596,34 @@ module box_lid() {
     zc = z_catch - 0.1;
     difference() {
         union() {
-            hull() {
-                translate([0, 0, box_H]) linear_extrude(lid_t - 0.6) rsq(B_out, r_out);
-                translate([0, 0, box_H + lid_t - eps]) linear_extrude(eps) rsq(B_out - 1.2, r_out - 0.6);
+            // Plate and latch tongue as ONE extrusion. Nothing below shares a face
+            // with anything else: Manifold-based OpenSCAD leaves a zero-thickness
+            // seam (a non-manifold edge in the slicer) wherever unioned solids
+            // share a plane.
+            translate([0, 0, box_H]) linear_extrude(lid_t) union() {
+                rsq(B_out, r_out);
+                // tongue over the latch boss: 0.5 proud of the tab, and stopping
+                // 0.5 short of the locating lip
+                difference() {
+                    translate([-boss_w/2, y_face - 0.5]) square([boss_w, -y_face + 0.5]);
+                    rsq(B_in - 2*lip_gap + 1.0, max(0.5, r_in - lip_gap + 0.5));
+                }
             }
-            // tongue over the latch boss
-            // (it stops 0.5 mm short of the locating lip so the two never touch)
-            translate([0, 0, box_H]) linear_extrude(lid_t) difference() {
-                translate([-boss_w/2, y_face]) square([boss_w, -y_face]);
-                rsq(B_in - 2*lip_gap + 1.0, max(0.5, r_in - lip_gap + 0.5));
-            }
-            // locating lip inside the rim
-            translate([0, 0, box_H - lip_h]) linear_extrude(lip_h + eps)
+            // locating lip inside the rim (0.3 up into the plate)
+            translate([0, 0, box_H - lip_h]) linear_extrude(lip_h + 0.3)
                 difference() {
                     rsq(B_in - 2*lip_gap, max(0.5, r_in - lip_gap));
                     rsq(B_in - 2*lip_gap - 2*lip_t, max(0.5, r_in - lip_gap - lip_t));
                 }
             lid_knuckles();
-            // latch tab
-            translate([-latch_width/2, y_face, tab_bot + 1]) cube([latch_width, latch_thickness, box_H - tab_bot - 1 + 0.5]);   // 0.5 into the plate
+            // latch tab and its finger pull: one profile, one extrusion, 0.5 into the plate
+            yz_extrude(-latch_width/2, latch_width) union() {
+                translate([y_face, tab_bot + 1]) square([latch_thickness, box_H - tab_bot - 1 + 0.5]);
+                polygon([[y_face + latch_thickness, tab_bot], [y_face - 1.5, tab_bot], [y_face, tab_bot + 3], [y_face + latch_thickness, tab_bot + 3]]);
+            }
             // hook: flat top bears on the pocket roof, 45-degree lead-in below
             yz_extrude(-(latch_width/2 - 1), latch_width - 2)
                 polygon([[yt - 0.3, zc], [yt + latch_hook, zc], [yt + latch_hook, zc - 0.6], [yt - 0.3, zc - 0.6 - latch_hook - 0.3]]);
-            // finger pull: outward kick at the tab tip
-            yz_extrude(-latch_width/2, latch_width)
-                polygon([[y_face + latch_thickness, tab_bot], [y_face - 1.5, tab_bot], [y_face, tab_bot + 3], [y_face + latch_thickness, tab_bot + 3]]);
         }
         knuckle_clearance(0);
         pin_hole();
@@ -642,12 +652,17 @@ module box_lid_open(a) {
 //  Part selection
 // ---------------------------------------------------------------------
 gap = 6;
-// Separate top-level, colour-tagged objects so a 3MF export keeps the
-// artwork as its own part (needs an OpenSCAD build with lazy-union / colour 3MF).
+// Every coloured solid is its own top-level statement, so with OpenSCAD's
+// lazy-union feature a 3MF export holds one object per colour; the slicer then
+// offers to load them as one multi-part object and asks which filament each
+// part gets. (Grouping them would merge them into one solid with only its
+// faces coloured, which some slicers ignore.)
+lid_dx = D_body/2 + D_lid/2 + gap;
+box_dx = B_out + 2*boss_p + 2*kr + gap;
 if (part == "weight") {
     color("SteelBlue") weight_body();
-    translate([D_body/2 + D_lid/2 + gap, 0, 0]) color("LightSteelBlue") lid_print();
-    translate([D_body/2 + D_lid/2 + gap, 0, 0]) color("white") art_print();
+    color("LightSteelBlue") translate([lid_dx, 0, 0]) lid_print();
+    color("white") translate([lid_dx, 0, 0]) art_print();
 }
 else if (part == "body") color("SteelBlue") weight_body();
 else if (part == "lid") { color("LightSteelBlue") lid_print(); color("white") art_print(); }
@@ -657,18 +672,16 @@ else if (part == "box") { color("Tan") storage_box(); color("white") box_bottom_
 else if (part == "box_lid") { color("Wheat") box_lid_print(); color("white") box_lid_print_xform() box_lid_art(); }
 else if (part == "box_only") storage_box();
 else if (part == "box_lid_only") box_lid_print();
+else if (part == "box_lid_in_place") box_lid_open(preview_lid_angle);   // (hidden) for checking fit
 else if (part == "box_inlays") {
     box_bottom_art();
-    translate([B_out + 2*boss_p + 2*kr + gap, 0, 0]) box_lid_print_xform() box_lid_art();
+    translate([box_dx, 0, 0]) box_lid_print_xform() box_lid_art();
 }
-else if (part == "box_lid_in_place") box_lid_open(preview_lid_angle);   // (hidden) for checking fit
 else if (part == "box_set") {
     color("Tan") storage_box();
     color("white") box_bottom_art();
-    translate([B_out + 2*boss_p + 2*kr + gap, 0, 0]) {
-        color("Wheat") box_lid_print();
-        color("white") box_lid_print_xform() box_lid_art();
-    }
+    color("Wheat") translate([box_dx, 0, 0]) box_lid_print();
+    color("white") translate([box_dx, 0, 0]) box_lid_print_xform() box_lid_art();
 }
 else if (part == "weight_cutaway") {
     difference() { weight_assembled(); translate([0, -100, -1]) cube(200); }
