@@ -4,7 +4,7 @@
 //
 //  Written by Claude (Anthropic) at the direction of Bob Drzyzgula,
 //  replacing his earlier MakerWorld-generated "full set".
-//  Version 1.3.1 (one colour for parts, one for artwork, in exports)
+//  Version 1.4 (firmer latch, teardrop lid pin holes)
 //  License: MIT
 //
 //  Requires BOSL2 (https://github.com/BelfrySCAD/BOSL2) on the
@@ -106,8 +106,10 @@ box_headroom = 1.5; // [0:0.5:20]
 box_corner_fraction = 0.33; // [0.05:0.01:0.49]
 // 0 = automatic from total set mass
 box_wall_override = 0; // [0:0.1:5]
-// Hinge pin hole diameter (2.0 suits a length of 1.75 filament; 3.2 suits an M3 screw or 1/8 rod)
+// Hinge pin hole diameter in the box (2.0 suits a length of 1.75 filament; 3.2 suits an M3 screw or 1/8 rod)
 hinge_pin_hole = 2.0; // [1.5:0.05:4]
+// Extra diameter for the lid's pin holes, which print sideways and face-down
+lid_pin_extra = 0.15; // [0:0.05:0.6]
 // Opening angle for the box cutaway preview
 preview_lid_angle = 0; // [0:5:180]
 
@@ -138,7 +140,9 @@ latch_thickness = 1.6; // [1:0.1:3]
 // Flexing length from lid to catch (mm)
 latch_length = 14; // [8:0.5:25]
 // Depth of the hook (mm)
-latch_hook = 1.4; // [0.8:0.1:2.5]
+latch_hook = 1.8; // [0.8:0.1:2.5]
+// Back-tilt of the hook's catching face (load pulls the hook in, not out)
+latch_angle = 10; // [0:1:20]
 
 /* [Material and resolution] */
 steel_density = 7.85; // [7:0.01:8.5]
@@ -557,6 +561,16 @@ module knuckle_clearance(first) {
 module pin_hole() {
     translate([-B_out, hinge_y, hinge_z]) rotate([0, 90, 0]) cylinder(d = hinge_pin_hole, h = 2*B_out, $fn = 24);
 }
+// The lid prints face-down, so its pin holes print sideways with their USE-bottom
+// facing up. A teardrop pointing that way prints without the sag that closed up
+// round holes; the pin bears on the round part.
+module lid_pin_hole() {
+    d = hinge_pin_hole + lid_pin_extra;
+    yz_extrude(-B_out, 2*B_out) hull() {
+        translate([hinge_y, hinge_z]) circle(d = d, $fn = 24);
+        translate([hinge_y, hinge_z - d/2 * sqrt(2)]) square(0.05, center = true);
+    }
+}
 
 y_face   = -B_out/2 - boss_p;                  // latch boss outer face (front is -y)
 y_cf     = y_face + latch_thickness + l_gap;   // latch channel floor
@@ -585,8 +599,12 @@ module storage_box() {
         yz_extrude(-(latch_width/2 + l_gap), latch_width + 2*l_gap)
             polygon([[y_cf - eps, box_H + eps], [y_cf + latch_hook + 0.3, box_H + eps], [y_cf - eps, box_H - latch_hook - 0.3]]);
         // catch pocket: its flat roof at z_catch is what the hook bears on
-        translate([-(latch_width/2 - 1 + l_gap), y_cf - eps, z_catch - latch_hook - 3])
-            cube([latch_width - 2 + 2*l_gap, latch_hook + 0.3, latch_hook + 3]);
+        // its roof parallels the hook's tilted face, 0.1 above it
+        let(yt = y_face + latch_thickness, t = tan(latch_angle),
+            roof = function(y) z_catch + (y - yt) * t)
+        yz_extrude(-(latch_width/2 - 1 + l_gap), latch_width - 2 + 2*l_gap)
+            polygon([[y_cf - eps, z_catch - latch_hook - 3], [y_cf + latch_hook + 0.3 - l_gap, z_catch - latch_hook - 3],
+                     [y_cf + latch_hook + 0.3 - l_gap, roof(y_cf + latch_hook + 0.3 - l_gap)], [y_cf - eps, roof(y_cf - eps)]]);
     }
 }
 
@@ -623,10 +641,12 @@ module box_lid() {
             }
             // hook: flat top bears on the pocket roof, 45-degree lead-in below
             yz_extrude(-(latch_width/2 - 1), latch_width - 2)
-                polygon([[yt - 0.3, zc], [yt + latch_hook, zc], [yt + latch_hook, zc - 0.6], [yt - 0.3, zc - 0.6 - latch_hook - 0.3]]);
+                let(rise = latch_hook * tan(latch_angle))   // catching face climbs toward the box
+                polygon([[yt - 0.3, zc - 0.3 * tan(latch_angle)], [yt + latch_hook, zc + rise],
+                         [yt + latch_hook, zc + rise - 0.6], [yt - 0.3, zc - 0.6 - latch_hook - 0.3]]);
         }
         knuckle_clearance(0);
-        pin_hole();
+        lid_pin_hole();
         if (box_lid_art_on)
             translate([0, 0, box_H + lid_t - box_svg_depth]) linear_extrude(box_svg_depth + 1) box_lid_svg_2d();
     }

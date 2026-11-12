@@ -1,6 +1,6 @@
 # Pattern Weights — User's Guide
 
-Version 1.3.1
+Version 1.4
 
 The Pattern Weights were made at the request of Bob Drzyzgula. The design,
 the OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -209,7 +209,11 @@ from the mass of the whole set (`box_wall_override` sets them directly).
 
 Interleaved knuckles run along the back, their tops flush with the top of
 the lid. The pin is a length of 1.75 mm filament in a 2.0 mm hole
-(`hinge_pin_hole`; use 3.2 for an M3 screw or ⅛ in rod). Push it through
+(`hinge_pin_hole`; use 3.2 for an M3 screw or ⅛ in rod). The lid's
+holes print sideways with the lid face-down, so they're teardrop-shaped
+to print without sagging, and `lid_pin_extra` (0.15 mm) larger. If the
+pin is still tight in the lid, run a drill of the hole's size through
+by hand. Push it through
 and soften each end with a lighter or soldering iron to mushroom it. The
 lid opens past vertical.
 
@@ -219,14 +223,17 @@ A flexible tab hangs from the front of the lid into a channel in a boss on
 the box. Its hook rides down the channel floor and snaps into a pocket with
 a square roof. To open, pull the flared tip of the tab outward and lift.
 
-Because the hook and pocket meet square, the latch doesn't cam open under
-load: a full box can be held upside down. The hinge, the latch, and the lip
+The hook's catching face, and the pocket roof above it, tilt back
+`latch_angle` (10°). A load trying to open the lid, such as weights
+sliding against it when the box tips, pulls the hook further into the
+pocket instead of camming it out, so a full box can be held upside down. The hinge, the latch, and the lip
 around the underside of the lid share the load. The latch isn't designed
 to survive being dropped.
 
 The latch width is automatic (12 mm, narrower on small boxes;
-`latch_width_override` sets it). `latch_thickness`, `latch_length` and
-`latch_hook` set the tab's stiffness, flex length and hook depth.
+`latch_width_override` sets it). `latch_thickness`, `latch_length`,
+`latch_hook` (1.8 mm) and `latch_angle` set the tab's stiffness, flex
+length, hook depth and the catching face's tilt.
 
 ## 9. Parts and printing
 
@@ -314,7 +321,8 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
 | `box_headroom` | 1.5 | Space above the stack |
 | `box_corner_fraction` | 0.33 | Corner radius as a fraction of the width |
 | `box_wall_override` | 0 (auto) | Box wall |
-| `hinge_pin_hole` | 2.0 | Hinge pin hole |
+| `hinge_pin_hole` | 2.0 | Hinge pin hole in the box |
+| `lid_pin_extra` | 0.15 | Extra diameter for the lid's (teardrop) pin holes |
 | `preview_lid_angle` | 0 | Lid angle in the box cutaway |
 | `box_lid_svg_mode`, `box_bottom_svg_mode` | `none` | Box artwork: `engrave` or `inlay` |
 | `box_lid_svg_file`, `box_bottom_svg_file` | `examples/spool.svg` | Box artwork files |
@@ -324,7 +332,8 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
 | `latch_width_override` | 0 (auto) | Latch tab width |
 | `latch_thickness` | 1.6 | Latch tab thickness |
 | `latch_length` | 14 | Flexing length |
-| `latch_hook` | 1.4 | Hook depth |
+| `latch_hook` | 1.8 | Hook depth |
+| `latch_angle` | 10 | Back-tilt of the hook's catching face, degrees |
 | `steel_density`, `plastic_density` | 7.85, 1.27 | For the mass report |
 
 ## 12. Troubleshooting
@@ -338,7 +347,8 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
   the range. Add a washer, or use a custom washer with your measured
   thickness.
 - **The latch is too stiff or too weak**: change `latch_thickness` by
-  0.2 mm at a time.
+  0.2 mm at a time. If it holds firmly but lets go when the box is
+  knocked, raise `latch_hook` or `latch_angle` instead.
 - **The artwork is missing**: the SVG's shapes need fills, and the file
   path is relative to the `.scad` file.
 - **The slicer reports a non-manifold edge or reversed faces**: these
@@ -353,6 +363,10 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
 
 ## 13. Version history
 
+- **1.4**: from the first printed box (translucent PETG): the latch could
+  spring open, so the hook is deeper (1.8 mm, from 1.4) and its catching
+  face tilts back 10°. The lid's pin holes needed drilling out, so they're
+  now teardrop-shaped and 0.15 mm larger.
 - **1.3.1**: all printed parts export in one colour and all artwork in
   another, so Bambu Studio's import dialog starts with two filaments.
 - **1.3**: no two solids in a union share a face, edge or vertex
