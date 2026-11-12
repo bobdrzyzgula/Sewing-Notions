@@ -1,6 +1,6 @@
 # Pattern Weights — User's Guide
 
-Version 1.3
+Version 1.3.1
 
 The Pattern Weights were made at the request of Bob Drzyzgula. The design,
 the OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -171,22 +171,30 @@ the plate it's cut into, so the plate stays as strong as before.
 
 ### Printing inlays
 
-Every colour is its own solid. With the **lazy-union** feature turned on
-(OpenSCAD Preferences, Features), a 3MF export holds one object per
-colour: for `box_set` with an inlaid lid, that's the box, the lid and the
-lid's artwork. When you open it, Bambu Studio or OrcaSlicer asks whether
-to load the objects as a single object with multiple parts. Say yes, then
-pick a filament for each part. Each colour has to be its own object
-because neither slicer reliably uses colours painted on the faces of a
-single object, and OrcaSlicer ignores them entirely.
+Every printed part shares one colour and all the artwork shares
+another, and each is its own solid. With the **lazy-union** feature
+turned on (OpenSCAD Preferences, Features), a 3MF export holds one
+object per solid: for `box_set` with an inlaid lid, that's the box, the
+lid and the lid's artwork.
+
+- **Bambu Studio** opens it with an *Import Model* dialog. **Simplify
+  Colors** should show 2 colours; if it shows more, set the count to 2.
+  In **Filament Matching**, pick a filament for the parts and one for
+  the artwork. The artwork is exported sitting in the lid's recess, but
+  it's a separate object, so the slicer may move it off the lid. If it
+  does, put it back: select both and use *Assemble*, and check that it
+  lies flush in the recess before slicing.
+- **OrcaSlicer** ignores the 3MF's colours. Make sure the artwork sits
+  in the lid's recess as above, and set its filament by hand.
+- If the parts come in as more than two colours (an older version of
+  the model, or your own colour changes), merge them to two. Otherwise
+  a plate holding both the box and the lid makes pointless swaps
+  between identical filaments.
 
 With OpenSCAD 2021.01, which has no lazy-union, export the part and its
 artwork separately as STLs (`lid_only` and `inlay`, `box_only` and
-`box_lid_only` with `box_inlays`), then add the artwork to the part in the
-slicer as a second part.
-
-`examples/spool.svg` is a placeholder thread spool. Use any SVG with filled
-shapes; outlines with no fill import as nothing.
+`box_lid_only` with `box_inlays`), then add the artwork to the part in
+the slicer as a second part.
 
 ## 8. The storage box
 
@@ -338,14 +346,15 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
   1.3. If it recurs, perhaps from artwork whose outline touches itself,
   the slicer's Repair is safe: it removes triangles of zero area and
   doesn't change the shape.
-- **The slicer doesn't see the artwork as a separate colour**: turn on
-  lazy-union, and accept the slicer's offer to load the objects as one
-  object with several parts (section 7).
+- **The slicer doesn't see the artwork as a separate colour**: check
+  that lazy-union is on, then follow section 7 for your slicer.
 - **The box is too tall for the printer**: the report warns above 250 mm.
   Reduce `box_count`.
 
 ## 13. Version history
 
+- **1.3.1**: all printed parts export in one colour and all artwork in
+  another, so Bambu Studio's import dialog starts with two filaments.
 - **1.3**: no two solids in a union share a face, edge or vertex
   anywhere in the model, and each colour exports as its own 3MF object.
   Exports from OpenSCAD's Manifold engine had shown degenerate

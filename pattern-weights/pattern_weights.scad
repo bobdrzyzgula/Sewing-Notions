@@ -4,7 +4,7 @@
 //
 //  Written by Claude (Anthropic) at the direction of Bob Drzyzgula,
 //  replacing his earlier MakerWorld-generated "full set".
-//  Version 1.3 (no shared faces between unioned solids; one 3MF object per colour)
+//  Version 1.3.1 (one colour for parts, one for artwork, in exports)
 //  License: MIT
 //
 //  Requires BOSL2 (https://github.com/BelfrySCAD/BOSL2) on the
@@ -652,6 +652,12 @@ module box_lid_open(a) {
 //  Part selection
 // ---------------------------------------------------------------------
 gap = 6;
+// All printed parts share one colour and all artwork another, so a slicer that
+// reads the 3MF's colours (Bambu Studio's import dialog) starts with exactly two
+// filaments and never swaps between identical ones on a shared plate.
+PART_COLOR = "Tan";
+ART_COLOR  = "white";
+
 // Every coloured solid is its own top-level statement, so with OpenSCAD's
 // lazy-union feature a 3MF export holds one object per colour; the slicer then
 // offers to load them as one multi-part object and asks which filament each
@@ -660,16 +666,16 @@ gap = 6;
 lid_dx = D_body/2 + D_lid/2 + gap;
 box_dx = B_out + 2*boss_p + 2*kr + gap;
 if (part == "weight") {
-    color("SteelBlue") weight_body();
-    color("LightSteelBlue") translate([lid_dx, 0, 0]) lid_print();
-    color("white") translate([lid_dx, 0, 0]) art_print();
+    color(PART_COLOR) weight_body();
+    color(PART_COLOR) translate([lid_dx, 0, 0]) lid_print();
+    color(ART_COLOR) translate([lid_dx, 0, 0]) art_print();
 }
-else if (part == "body") color("SteelBlue") weight_body();
-else if (part == "lid") { color("LightSteelBlue") lid_print(); color("white") art_print(); }
+else if (part == "body") color(PART_COLOR) weight_body();
+else if (part == "lid") { color(PART_COLOR) lid_print(); color(ART_COLOR) art_print(); }
 else if (part == "lid_only") lid_print();
 else if (part == "inlay") art_print();
-else if (part == "box") { color("Tan") storage_box(); color("white") box_bottom_art(); }
-else if (part == "box_lid") { color("Wheat") box_lid_print(); color("white") box_lid_print_xform() box_lid_art(); }
+else if (part == "box") { color(PART_COLOR) storage_box(); color(ART_COLOR) box_bottom_art(); }
+else if (part == "box_lid") { color(PART_COLOR) box_lid_print(); color(ART_COLOR) box_lid_print_xform() box_lid_art(); }
 else if (part == "box_only") storage_box();
 else if (part == "box_lid_only") box_lid_print();
 else if (part == "box_lid_in_place") box_lid_open(preview_lid_angle);   // (hidden) for checking fit
@@ -678,10 +684,10 @@ else if (part == "box_inlays") {
     translate([box_dx, 0, 0]) box_lid_print_xform() box_lid_art();
 }
 else if (part == "box_set") {
-    color("Tan") storage_box();
-    color("white") box_bottom_art();
-    color("Wheat") translate([box_dx, 0, 0]) box_lid_print();
-    color("white") translate([box_dx, 0, 0]) box_lid_print_xform() box_lid_art();
+    color(PART_COLOR) storage_box();
+    color(ART_COLOR) box_bottom_art();
+    color(PART_COLOR) translate([box_dx, 0, 0]) box_lid_print();
+    color(ART_COLOR) translate([box_dx, 0, 0]) box_lid_print_xform() box_lid_art();
 }
 else if (part == "weight_cutaway") {
     difference() { weight_assembled(); translate([0, -100, -1]) cube(200); }

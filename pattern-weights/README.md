@@ -68,7 +68,7 @@ The [User's Guide](docs/USERS_GUIDE.md) covers every setting.
 
 ## Status
 
-Version 1.3. The weights have been printed and work: a ½ in USS set in
+Version 1.3.1. The weights have been printed and work: a ½ in USS set in
 PETG, and a ⅝ in USS set in PLA with a silk PLA inlay on the lid. The box
 is not yet printed. Every part, washer size and option has been rendered
 and checked in OpenSCAD (2021.01 with current BOSL2), and the meshes
