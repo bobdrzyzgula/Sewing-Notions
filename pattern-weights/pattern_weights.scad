@@ -4,7 +4,7 @@
 //
 //  Written by Claude (Anthropic) at the direction of Bob Drzyzgula,
 //  replacing his earlier MakerWorld-generated "full set".
-//  Version 1.4 (firmer latch, teardrop lid pin holes)
+//  Version 1.4.1 (internal values kept out of Customizer presets)
 //  License: MIT
 //
 //  Requires BOSL2 (https://github.com/BelfrySCAD/BOSL2) on the
@@ -152,7 +152,10 @@ $fa = 2;
 $fs = 0.4;
 
 /* [Hidden] */
-eps = 0.01;
+// Internal values below are written as expressions ("0 + x") so the
+// Customizer doesn't list them and saved presets can't capture them;
+// otherwise an old preset would override them in later versions.
+eps = 0 + 0.01;
 
 // ---------------------------------------------------------------------
 //  Data tables
@@ -226,7 +229,7 @@ t_depth = rnd(0.30 * pitch, 0.05);         // 90-degree (45-degree flank) thread
 engage  = max(2.5 * pitch, 6);             // minimum axial thread engagement
 D_root  = d_bore + 2 * wall;               // neck diameter at thread root
 D_major = D_root + 2 * t_depth;            // thread major diameter
-skirt_plain_gap = 0.4;                     // radial gap, plain skirt over threads/body
+skirt_plain_gap = 0 + 0.4; // radial gap, plain skirt over threads/body
 D_lid   = D_major + 2 * wall + 0.4;        // lid outside diameter
 D_body  = weight_style == "flush" ? D_lid : D_major + 0.4;   // overcap: 0.2 proud of the thread crests
 
@@ -320,12 +323,12 @@ r_out  = box_corner_fraction * B_out;
 r_in   = max(0.5, r_out - box_wall);
 box_H  = box_floor + box_count * H_max + box_headroom;   // rim height
 lid_t  = max(2.4, box_wall + 0.4) + (box_lid_art_on ? box_svg_depth : 0);   // box lid plate thickness
-lip_h  = 3; lip_t = 1.6; lip_gap = 0.3;
+lip_h  = 0 + 3; lip_t = 0 + 1.6; lip_gap = 0 + 0.3;
 // hinge
 kr      = max(3.2, hinge_pin_hole/2 + 2.0);               // knuckle radius
-k_gap   = 0.4;
+k_gap   = 0 + 0.4;
 hinge_y = B_out/2 + kr + k_gap;
-knuckle_flat = 0.3;                                      // knuckle tops cut flat, flush with lid top
+knuckle_flat = 0 + 0.3; // knuckle tops cut flat, flush with lid top
 hinge_z = box_H + lid_t - kr + knuckle_flat;
 flat_len = B_out - 2 * r_out;
 // 0.9137: keeps the knuckle ends off the corner curve's facet vertices (a
@@ -335,12 +338,12 @@ n_knuckles = hinge_len >= 45 ? 5 : 3;
 k_len = (hinge_len - (n_knuckles - 1) * k_gap) / n_knuckles;
 // latch
 latch_width = latch_width_override > 0 ? latch_width_override : rnd(min(12, 0.3 * B_out), 0.5);
-l_gap   = 0.4;
+l_gap   = 0 + 0.4;
 boss_p  = latch_thickness + l_gap + latch_hook + 1.2;     // boss protrusion
 boss_w  = latch_width + 2 * (l_gap + 3);
 z_catch = box_H - latch_length;
 boss_len = latch_length + latch_hook + 3;                 // boss height below rim
-tab_tip  = 3;                                             // tab length below the boss
+tab_tip  = 0 + 3; // tab length below the boss
 
 // ---------------------------------------------------------------------
 //  Report
@@ -671,12 +674,12 @@ module box_lid_open(a) {
 // ---------------------------------------------------------------------
 //  Part selection
 // ---------------------------------------------------------------------
-gap = 6;
+gap = 0 + 6;
 // All printed parts share one colour and all artwork another, so a slicer that
 // reads the 3MF's colours (Bambu Studio's import dialog) starts with exactly two
 // filaments and never swaps between identical ones on a shared plate.
-PART_COLOR = "Tan";
-ART_COLOR  = "white";
+PART_COLOR = str("Tan");
+ART_COLOR  = str("white");
 
 // Every coloured solid is its own top-level statement, so with OpenSCAD's
 // lazy-union feature a 3MF export holds one object per colour; the slicer then

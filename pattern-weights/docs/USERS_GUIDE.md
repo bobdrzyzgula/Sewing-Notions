@@ -1,6 +1,6 @@
 # Pattern Weights — User's Guide
 
-Version 1.4
+Version 1.4.1
 
 The Pattern Weights were made at the request of Bob Drzyzgula. The design,
 the OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -358,11 +358,19 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
   doesn't change the shape.
 - **The slicer doesn't see the artwork as a separate colour**: check
   that lazy-union is on, then follow section 7 for your slicer.
+- **A fix in a new version doesn't show up**: a saved Customizer preset
+  stores every setting, defaults included, so an older preset brings
+  back older defaults. After updating, start a fresh preset from the
+  defaults, or check the version history above for settings whose
+  defaults changed (in 1.4, `latch_hook`).
 - **The box is too tall for the printer**: the report warns above 250 mm.
   Reduce `box_count`.
 
 ## 13. Version history
 
+- **1.4.1**: the model's internal values (clearances, gaps and the like)
+  no longer appear in the Customizer, so saved presets can't capture
+  them and override later fixes.
 - **1.4**: from the first printed box (translucent PETG): the latch could
   spring open, so the hook is deeper (1.8 mm, from 1.4) and its catching
   face tilts back 10°. The lid's pin holes needed drilling out, so they're

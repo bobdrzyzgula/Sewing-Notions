@@ -68,7 +68,7 @@ The [User's Guide](docs/USERS_GUIDE.md) covers every setting.
 
 ## Status
 
-Version 1.4. Printed and working:
+Version 1.4.1. Printed and working:
 
 - weights: a ½ in USS set in PETG, and a ⅝ in USS set in PLA with a silk
   PLA inlay on the lid;
