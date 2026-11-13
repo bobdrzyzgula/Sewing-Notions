@@ -43,7 +43,7 @@ the old lid, which didn't print well.
 | File | Purpose |
 |---|---|
 | `pattern_weights.scad` | The parametric model (OpenSCAD with BOSL2) |
-| `examples/spool.svg` | Placeholder artwork (a thread spool) |
+| `examples/` | Example artwork: a thread spool (`spool.svg`), a needle and thread (`nat.svg`), and sewing machines (`Singer.svg`, `singer99k_line_40mm.svg`, `singer99k_silhouette_40mm.svg`) |
 | `stl/weight_body_uss_3_4_x4.stl` | Weight body for four USS ¾ washers, at the defaults |
 | `stl/weight_lid_uss_3_4_x4.stl` | Its lid, face-down for printing |
 | `stl/box_4_weights_uss_3_4.stl` | Storage box for four of those weights |
@@ -68,13 +68,13 @@ The [User's Guide](docs/USERS_GUIDE.md) covers every setting.
 
 ## Status
 
-Version 1.4.2. Printed and working:
+Version 1.5. Printed and working:
 
 - weights: a ½ in USS set in PETG, and a ⅝ in USS set in PLA with a silk
   PLA inlay on the lid;
-- a one-weight box in translucent PETG with an opaque PETG inlay on the
-  lid. Its latch was firmed up and its lid pin holes enlarged in 1.4,
-  after that first print.
+- one-weight boxes in translucent PETG with opaque PETG inlays on the
+  lid. The second, at version 1.4.2 with a 1.8 mm latch tab, holds shut
+  when shaken; that tab thickness is now the default.
 
 Every part, washer size and option has been rendered and checked in
 OpenSCAD (2021.01 with current BOSL2), and the meshes checked for
@@ -85,7 +85,11 @@ degenerate triangles.
 |---|---|---|
 | ![Lids](images/photo_lids.jpg) | ![Inside](images/photo_inside.jpg) | ![Bases](images/photo_bottoms.jpg) |
 
-| The box, with a weight | Inlaid box lid | Closed |
+| Box with a sewing machine inlay | Inlay detail at 45 mm | Open |
+|---|---|---|
+| ![Box](images/photo_box_singer.jpg) | ![Inlay detail](images/photo_box_singer_detail.jpg) | ![Box open](images/photo_box_singer_open.jpg) |
+
+| The first box, with a weight | Inlaid box lid | Closed |
 |---|---|---|
 | ![Box open](images/photo_box_open.jpg) | ![Box lid inlay](images/photo_box_inlay.jpg) | ![Box closed](images/photo_box_closed.jpg) |
 

@@ -1,6 +1,6 @@
 # Pattern Weights — User's Guide
 
-Version 1.4.2
+Version 1.5
 
 The Pattern Weights were made at the request of Bob Drzyzgula. The design,
 the OpenSCAD model and this guide were written by Claude (Anthropic) at his
@@ -239,9 +239,10 @@ to survive being dropped.
 The latch width is automatic (12 mm, narrower on small boxes;
 `latch_width_override` sets it). `latch_thickness`, `latch_length`,
 `latch_hook` (1.8 mm) and `latch_angle` (0°) set the tab's stiffness,
-flex length, hook depth and the catching face's tilt. For a firmer
-latch, raise `latch_thickness` to 1.8 mm first: stiffness goes as the
-cube of the thickness.
+flex length, hook depth and the catching face's tilt. The tab's
+stiffness goes as the cube of its thickness; 1.8 mm (the default) was
+tested in translucent PETG and holds a one-weight box shut against
+shaking.
 
 ## 9. Parts and printing
 
@@ -338,7 +339,7 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
 | `box_bottom_svg_width`, `_height`, `_rotate` | 0, 0, 0 | Bottom artwork size and rotation |
 | `box_svg_depth` | 0.6 | Box artwork depth |
 | `latch_width_override` | 0 (auto) | Latch tab width |
-| `latch_thickness` | 1.6 | Latch tab thickness |
+| `latch_thickness` | 1.8 | Latch tab thickness |
 | `latch_length` | 14 | Flexing length |
 | `latch_hook` | 1.8 | Hook depth |
 | `latch_angle` | 0 | Back-tilt of the hook's catching face, degrees (above 0 the hook needs support) |
@@ -376,6 +377,9 @@ and a set of four is about 1.0 kg (2.2 lb), in a box 70 × 70 × 143 mm.
 
 ## 13. Version history
 
+- **1.5**: `latch_thickness` defaults to 1.8 mm (was 1.6). Bob printed
+  a one-weight box with the 1.4.2 latch at 1.8 mm in translucent PETG
+  and couldn't shake it open.
 - **1.4.2**: `latch_angle` defaults to 0 again. Bob found in the slicer
   that the 10° tilt started the hook with an unanchored strip at its tip
   on the face-down lid.

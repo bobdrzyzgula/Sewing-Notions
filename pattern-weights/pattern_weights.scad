@@ -4,7 +4,7 @@
 //
 //  Written by Claude (Anthropic) at the direction of Bob Drzyzgula,
 //  replacing his earlier MakerWorld-generated "full set".
-//  Version 1.4.2 (latch hook prints without support again: tilt defaults to 0)
+//  Version 1.5 (latch tab 1.8 mm by default, as tested)
 //  License: MIT
 //
 //  Requires BOSL2 (https://github.com/BelfrySCAD/BOSL2) on the
@@ -136,7 +136,7 @@ box_svg_depth = 0.6; // [0.2:0.1:2]
 /* [Latch] */
 // 0 = automatic (12 mm, narrower on small boxes)
 latch_width_override = 0; // [0:0.5:25]
-latch_thickness = 1.6; // [1:0.1:3]
+latch_thickness = 1.8; // [1:0.1:3]
 // Flexing length from lid to catch (mm)
 latch_length = 14; // [8:0.5:25]
 // Depth of the hook (mm)
