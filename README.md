@@ -17,6 +17,7 @@ copied) on its own.
 | [Tilt Prop](tilt-prop/) | A stand that holds a sewing machine tipped back in its base for oiling and servicing, with a cradle or flat top, level or sloped, on a foot sized to stay upright. From the [VSM Base](https://github.com/bobdrzyzgula/VSM-Base). | Printed in PLA and in use on a Singer 99 |
 | [Point Turner](point-turner/) | A curved, blunt-pointed tool for pushing out the corners of a bag, pillow or collar after it's turned right side out. Small (3 in), medium (4½ in) and large (6 in), with the same tip and grips shaped for their size; right- or left-handed; optional creaser end and hanging hole. | Settled. Printed in PLA and PETG, every size, hand and butt end; no brim needed |
 | [Pattern Weights](pattern-weights/) | Weights made from a stack of standard steel washers (USS, SAE or metric, ¾ to 4 in) in a printed cup with a felt-pad base and a screw-down lid that clamps any stack within the washers' thickness tolerance, plus a storage box with a hinged, snap-latched lid. Optional artwork on the lids and under the box; the console reports each weight's mass. | Weights and box printed and working |
+| [Pincushion](pincushion/) | A no-sew pincushion: a cup lined with steel washers and filled with batting, fabric cut from a generated pattern that lies flat without bunching, and a cover that presses on over it, its ribs ratcheting into the cup's through the fabric. Optional artwork wrapped onto the cover and under the cup. | Untested: modeled, not yet printed |
 
 ## Using the models
 

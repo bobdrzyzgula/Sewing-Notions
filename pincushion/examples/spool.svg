@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample lid artwork for pattern_weights.scad: a simple thread spool. Replace with your own. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="100mm" height="100mm" viewBox="0 0 100 100">
+  <!-- flanges -->
+  <rect x="20" y="10" width="60" height="10" rx="3"/>
+  <rect x="20" y="80" width="60" height="10" rx="3"/>
+  <!-- wound thread, drawn as bands -->
+  <rect x="30" y="24" width="40" height="7" rx="2"/>
+  <rect x="30" y="35" width="40" height="7" rx="2"/>
+  <rect x="30" y="46" width="40" height="7" rx="2"/>
+  <rect x="30" y="57" width="40" height="7" rx="2"/>
+  <rect x="30" y="68" width="40" height="8" rx="2"/>
+</svg>
