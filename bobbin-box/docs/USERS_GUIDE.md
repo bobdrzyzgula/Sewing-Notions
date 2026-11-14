@@ -1,6 +1,6 @@
 # Bobbin Box — User's Guide
 
-Version 3
+Version 4
 
 The Bobbin Box was designed and tested by Bob Drzyzgula. The OpenSCAD
 model and this guide were written by Claude (Anthropic) at his direction.
@@ -103,6 +103,13 @@ If the hinge is too stiff or too loose, print `hinge_test` and adjust:
   makes a softer snap.
 - **Firmness:** `bump_engage` sets how far each bump reaches into its
   recess; `recess_extra_d` loosens the recess around the bump.
+  `bump_flank` is the angle of each bump's cone: the default 55° holds
+  well in PLA. A steeper flank, 60–65°, holds the lid harder (and snaps on
+  harder too), which PETG needs, being softer and slicker than PLA. On a
+  PETG lid, a wider tab alone helps less than you'd expect, because the
+  bump rides out on the same ramp; try `bump_flank = 65`, `bump_engage =
+  1.0` and `flex_w = 2.9` on `hinge_test` first. The box's recesses don't
+  depend on `bump_flank`, so a new lid fits an existing box.
 - **The lean-back stop:** `open_stop` turns it on or off, and
   `open_stop_extra` adds clearance.
 
@@ -189,8 +196,9 @@ All dimensions are in millimeters.
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `bump_d` | 3 | Bump diameter at its base |
+| `bump_d` | 3 | Bump diameter at its base, on the lid's end face |
 | `bump_engage` | 0.8 | How far each bump reaches into its recess |
+| `bump_flank` | 55 | Angle of the bump's cone from the end face (steeper: holds harder) |
 | `recess_extra_d` | 0.3 | Recess diameter beyond the bump's |
 | `recess_extra_depth` | 0.6 | Recess depth beyond the bump's reach |
 | `flex_len` | 15 | Flex tab length (longer: softer snap) |
@@ -228,7 +236,7 @@ All dimensions are in millimeters.
 |---|---|
 | A bobbin won't go onto its post | Lower `post_d`; print the `test` part to check |
 | The trays don't stack or lift together | Print `test` to check the pins in their sockets |
-| The hinge won't snap in, or pops out | Print `hinge_test`; adjust `flex_len`, `flex_w`, `bump_engage` and `recess_extra_d` |
+| The hinge won't snap in, or pops out | Print `hinge_test`; adjust `bump_flank`, `flex_len`, `flex_w`, `bump_engage` and `recess_extra_d` |
 | The lid is tight or rattles in its rabbet | Adjust `lid_clear` |
 | An inlaid image comes out the body's color | Export 3MF, not STL, from a recent OpenSCAD |
 | An image shows up as a solid block | Clean up the SVG: no invisible frames or unfilled rectangles |

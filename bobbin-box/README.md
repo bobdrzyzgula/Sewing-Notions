@@ -65,13 +65,15 @@ lift-out lid, the test parts and images on the faces.
 
 ## Status
 
-Version 3 (the model's own version numbering, carried over from the VSM
+Version 4 (the model's own version numbering, carried over from the VSM
 Base).
 
-- **Printed:** the trays are the same design as the VSM Base's, which have
-  been printed and used in PETG.
-- **Not yet printed:** the freestanding box and lid, and the images on the
-  faces.
+- **Printed** (November 2026): the box in matte PLA, the trays in PETG,
+  and a hinged lid in translucent PETG with an inlaid image in a second
+  PETG. The inlay worked well.
+- **The hinge in PETG** was too weak at the version 3 settings, even with
+  a much wider flex tab. Version 4 adds `bump_flank` to make the bumps
+  steeper and blunter; see the User's Guide. Not yet printed.
 
 ## Credits and license
 
