@@ -135,9 +135,11 @@ body has its own color tag.](../images/bobbin-box-images.png)
   proportions. Every image reads correctly seen from outside its face. The
   bottom's reads with the box tipped over backward, its front edge at the
   top.
-- **Raised, engraved or inlaid.** `img_relief` sets all of them: `raised`
-  stands `img_depth` (0.6 mm) proud of the face, `engraved` cuts it in, and
-  `inlaid` cuts it in and fills the recess flush with a separate part.
+- **Raised, engraved or inlaid,** set for each face: `img_front_relief`,
+  `img_back_relief` and so on. `raised` stands `img_depth` (0.6 mm) proud
+  of the face, `engraved` cuts it in, and `inlaid` cuts it in and fills the
+  recess flush with a separate part. The four sides default to `raised`,
+  and the bottom and lid to `engraved`, since they print face down.
 - **Colors.** Raised and inlaid images are color-tagged for a second
   filament. The body (box and lid) gets one random color, and each image
   its own, spaced evenly round the color wheel; `color_seed` picks another
@@ -231,7 +233,7 @@ All dimensions are in millimeters.
 |---|---|---|
 | `img_front`, `img_back`, `img_left`, `img_right`, `img_bottom`, `img_lid` | `""` | SVG for each face, relative to the model; `""` for none |
 | `img_…_size` | [50, 30] | Each image's width and height |
-| `img_relief` | raised | `raised`, `engraved` or `inlaid` |
+| `img_…_relief` | raised (sides), engraved (bottom, lid) | Each face's relief: `raised`, `engraved` or `inlaid` |
 | `img_depth` | 0.6 | Height or depth of the relief |
 | `color_seed` | 7 | Picks another set of random color tags |
 
