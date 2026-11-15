@@ -27,6 +27,14 @@ see and reach every bobbin from the side.
 
 ![The bobbin box](../images/bobbin-box.png)
 
+<p>
+<img src="../images/bobbin-box-printed-open.jpg" width="48%" alt="The printed box with its lid open and the trays inside">
+<img src="../images/bobbin-box-printed-trays.jpg" width="48%" alt="The tray stack lifted out by its knob">
+</p>
+
+*As printed: box in PLA, trays in PETG, lid in translucent PETG. Photos by
+Robert Drzyzgula.*
+
 It started as the corner bay and bobbin trays of the
 [VSM Base](https://github.com/bobdrzyzgula/VSM-Base), a 3D-printable base
 for vintage sewing machines, and was made into a freestanding box for
@@ -99,6 +107,12 @@ and rests at about 135°. It is the same hinge as the VSM Base's hinged
 lids, with the same defaults: each bump is a cone with a blunt tip, and
 each recess a matching cone just clear of it.
 
+<img src="../images/bobbin-box-printed-hinge-bump.jpg" width="50%" alt="A blunt hinge bump on the end of a PETG lid">
+
+*A blunt hinge bump on the end of a PETG lid, printed at 0.12 mm layers:
+the steep bump from the PETG test that led to version 4. The version 3
+bumps came to a soft point. Photo by Robert Drzyzgula.*
+
 If the hinge is too stiff or too loose, print `hinge_test` and adjust:
 
 - **Snap force:** a longer (`flex_len`) or narrower (`flex_w`) flex tab
@@ -127,6 +141,14 @@ back and two ends, the bottom, and the lid's top.
 
 ![Inlaid images on the front, the right end and the lid. Each image and the
 body has its own color tag.](../images/bobbin-box-images.png)
+
+<p>
+<img src="../images/bobbin-box-printed-closed.jpg" width="48%" alt="The printed box closed, with a grey butterfly inlaid in its purple lid">
+<img src="../images/bobbin-box-printed-inlay.jpg" width="48%" alt="Close-up of the inlaid butterfly">
+</p>
+
+*A butterfly inlaid in the lid: grey PETG in translucent purple PETG,
+with `img_lid_relief = "inlaid"`. Photos by Robert Drzyzgula.*
 
 - **Choosing the images.** Set `img_front`, `img_back`, `img_left`,
   `img_right`, `img_bottom` and `img_lid` to an SVG's path, relative to

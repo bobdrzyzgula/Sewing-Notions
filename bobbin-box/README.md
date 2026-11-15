@@ -11,6 +11,16 @@ carry an SVG image: raised, engraved, or inlaid in a second color.
 
 ![Inlaid images on the front, the right end and the lid](images/bobbin-box-images.png)
 
+<p>
+<img src="images/bobbin-box-printed-closed.jpg" width="32%" alt="The printed box, closed: green PLA, with a purple PETG lid inlaid with a grey butterfly">
+<img src="images/bobbin-box-printed-open.jpg" width="32%" alt="The lid open, resting back, and the grey PETG trays in the box">
+<img src="images/bobbin-box-printed-trays.jpg" width="32%" alt="The stack of five trays lifted out by its knob, beside the empty box">
+</p>
+
+*As printed, November 2026: the box in matte green PLA, the trays in grey
+PETG, and the lid in translucent purple PETG with a butterfly inlaid in
+grey PETG. Photos by Robert Drzyzgula.*
+
 It began as the corner bay and bobbin trays of the
 [VSM Base](https://github.com/bobdrzyzgula/VSM-Base), a 3D-printable base
 for vintage sewing machines, made into a freestanding box that doesn't need
