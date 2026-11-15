@@ -84,8 +84,13 @@ Base).
 - **The hinge in PETG** was too weak at the version 3 settings, even with
   a much wider flex tab: the bumps came to a soft point. A test with
   steeper, blunter bumps held well. Version 4 gives the box the VSM Base's
-  hinge, which already works that way; see the User's Guide. Version 4
-  itself is not yet printed, and its lid needs a version 4 box.
+  hinge, which already works that way; see the User's Guide. A version 4
+  lid needs a version 4 box.
+- **The version 4 hinge** was tested in PLA and PETG: hinge test lids in
+  each, printed at 0.12 mm layers, on test boxes in each at 0.20 mm. All
+  four combinations held securely. Print the lid at a fine layer height
+  for smooth bump cones; the box prints fine at 0.20 mm, where finer
+  layers would take far longer.
 
 ## Credits and license
 

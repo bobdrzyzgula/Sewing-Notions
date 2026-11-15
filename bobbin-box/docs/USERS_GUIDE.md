@@ -113,6 +113,12 @@ each recess a matching cone just clear of it.
 the steep bump from the PETG test that led to version 4. The version 3
 bumps came to a soft point. Photo by Robert Drzyzgula.*
 
+**Layer height:** print the lid at a fine layer height, such as 0.12 mm.
+The bumps are small cones, and fine layers give them smoother, truer
+flanks; the lid is thin, so this costs little time. The box prints fine at
+0.20 mm, where finer layers would take far longer. The tested lids were
+printed at 0.12 mm and the boxes at 0.20 mm.
+
 If the hinge is too stiff or too loose, print `hinge_test` and adjust:
 
 - **Snap force:** a longer (`flex_len`) or narrower (`flex_w`) flex tab
@@ -121,7 +127,8 @@ If the hinge is too stiff or too loose, print `hinge_test` and adjust:
   recess, and `recess_clear` how closely the recess fits around it.
   `bump_angle` is the angle of the bump's flanks from its axis: smaller is
   steeper, and holds the lid harder (and snaps on harder too). The
-  defaults hold well in PLA and PETG. A stiffer tab alone helps less than
+  defaults hold well in PLA and PETG: in a November 2026 test, lids in
+  each material held securely on boxes in each, all four combinations. A stiffer tab alone helps less than
   you'd expect, because the bump rides out on the same ramp; the angle is
   the stronger lever. `hinge_end_clear` is the float at the lid's two
   hinge ends: less keeps both bumps engaged.
