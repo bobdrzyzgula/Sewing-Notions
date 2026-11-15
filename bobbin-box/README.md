@@ -72,8 +72,10 @@ Base).
   and a hinged lid in translucent PETG with an inlaid image in a second
   PETG. The inlay worked well.
 - **The hinge in PETG** was too weak at the version 3 settings, even with
-  a much wider flex tab. Version 4 adds `bump_flank` to make the bumps
-  steeper and blunter; see the User's Guide. Not yet printed.
+  a much wider flex tab: the bumps came to a soft point. A test with
+  steeper, blunter bumps held well. Version 4 gives the box the VSM Base's
+  hinge, which already works that way; see the User's Guide. Version 4
+  itself is not yet printed, and its lid needs a version 4 box.
 
 ## Credits and license
 

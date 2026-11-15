@@ -95,21 +95,25 @@ The hinged lid pivots on two snap-in dimple hinges at the back: a bump on
 each end of the lid, on a flexible tab, snaps into a recess in each end
 wall. The back ledge is widened so the open lid stays clear of the
 opening, and the back rabbet wall is chamfered so the open lid leans back
-and rests at about 135°.
+and rests at about 135°. It is the same hinge as the VSM Base's hinged
+lids, with the same defaults: each bump is a cone with a blunt tip, and
+each recess a matching cone just clear of it.
 
 If the hinge is too stiff or too loose, print `hinge_test` and adjust:
 
 - **Snap force:** a longer (`flex_len`) or narrower (`flex_w`) flex tab
   makes a softer snap.
 - **Firmness:** `bump_engage` sets how far each bump reaches into its
-  recess; `recess_extra_d` loosens the recess around the bump.
-  `bump_flank` is the angle of each bump's cone: the default 55° holds
-  well in PLA. A steeper flank, 60–65°, holds the lid harder (and snaps on
-  harder too), which PETG needs, being softer and slicker than PLA. On a
-  PETG lid, a wider tab alone helps less than you'd expect, because the
-  bump rides out on the same ramp; try `bump_flank = 65`, `bump_engage =
-  1.0` and `flex_w = 2.9` on `hinge_test` first. The box's recesses don't
-  depend on `bump_flank`, so a new lid fits an existing box.
+  recess, and `recess_clear` how closely the recess fits around it.
+  `bump_angle` is the angle of the bump's flanks from its axis: smaller is
+  steeper, and holds the lid harder (and snaps on harder too). The
+  defaults hold well in PLA and PETG. A stiffer tab alone helps less than
+  you'd expect, because the bump rides out on the same ramp; the angle is
+  the stronger lever. `hinge_end_clear` is the float at the lid's two
+  hinge ends: less keeps both bumps engaged.
+- **The box and lid go together:** the recesses are cut to match the
+  bumps, so a lid made with different hinge settings needs a box made with
+  the same ones.
 - **The lean-back stop:** `open_stop` turns it on or off, and
   `open_stop_extra` adds clearance.
 
@@ -189,7 +193,7 @@ All dimensions are in millimeters.
 |---|---|---|
 | `wall` | 5.5 | Side wall thickness (the back is thicker on the hinged box) |
 | `lid_t` | 4 | Lid thickness |
-| `lid_clear` | 0.3 | Lid clearance in its rabbet, per side |
+| `lid_clear` | 0.3 | Lid clearance in its rabbet, per side (not the hinge ends) |
 | `ledge` | 2.5 | Ledge the lid rests on, inside the lip |
 
 ### Hinge
@@ -197,12 +201,13 @@ All dimensions are in millimeters.
 | Setting | Default | Meaning |
 |---|---|---|
 | `bump_d` | 3 | Bump diameter at its base, on the lid's end face |
-| `bump_engage` | 0.8 | How far each bump reaches into its recess |
-| `bump_flank` | 55 | Angle of the bump's cone from the end face (steeper: holds harder) |
-| `recess_extra_d` | 0.3 | Recess diameter beyond the bump's |
-| `recess_extra_depth` | 0.6 | Recess depth beyond the bump's reach |
+| `bump_engage` | 1.0 | How far each bump reaches into its recess |
+| `bump_angle` | 35 | Bump flank angle from its axis (smaller: steeper, holds harder) |
+| `hinge_end_clear` | 0.15 | Clearance at the lid's two hinge ends |
+| `recess_clear` | 0.075 | Clearance between bump and recess, per side |
+| `recess_extra_depth` | 0.3 | Recess depth beyond the bump's reach |
 | `flex_len` | 15 | Flex tab length (longer: softer snap) |
-| `flex_w` | 2.5 | Flex tab width (narrower: softer snap) |
+| `flex_w` | 4 | Flex tab width (narrower: softer snap) |
 | `flex_slot` | 1 | Slot freeing each flex tab |
 | `open_stop` | true | Chamfer so the open lid rests at about 135° |
 | `open_stop_extra` | 0.3 | Extra clearance in that chamfer |
@@ -236,7 +241,7 @@ All dimensions are in millimeters.
 |---|---|
 | A bobbin won't go onto its post | Lower `post_d`; print the `test` part to check |
 | The trays don't stack or lift together | Print `test` to check the pins in their sockets |
-| The hinge won't snap in, or pops out | Print `hinge_test`; adjust `bump_flank`, `flex_len`, `flex_w`, `bump_engage` and `recess_extra_d` |
+| The hinge won't snap in, or pops out | Print `hinge_test`; adjust `bump_angle`, `bump_engage`, `flex_w`, `flex_len` and `recess_clear` |
 | The lid is tight or rattles in its rabbet | Adjust `lid_clear` |
 | An inlaid image comes out the body's color | Export 3MF, not STL, from a recent OpenSCAD |
 | An image shows up as a solid block | Clean up the SVG: no invisible frames or unfilled rectangles |
